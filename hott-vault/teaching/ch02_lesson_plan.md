@@ -130,9 +130,92 @@ theorem path_assoc (p : x = y) (q : y = z) (r : z = w) :
 - **2-paths**: paths between paths $\alpha : p = q$  (homotopies!)
 - **3-paths**: ... and so on, infinitely
 
+This infinite tower of paths is what makes a type into an **∞-groupoid**.
+
+### 1.5 Why all structure comes from J (15 min)
+
 > "All of the higher groupoid structure arises automatically from the induction principle for identity types." — HoTT Book §2.0
 
-This infinite tower of paths is what makes a type into an **∞-groupoid**.
+This is one of the deepest observations in HoTT. Let's unpack it.
+
+**The setup.** The identity type has just ONE constructor (`rfl`) and ONE elimination rule (path induction / J). Yet from this alone, we derived inverse, concatenation, and all the groupoid laws above. The mechanism is always the same:
+
+> To define/prove something for all paths $p : x = y$, it suffices to handle the case $p \equiv \mathsf{rfl}$. In that case everything collapses and becomes trivial.
+
+**Layer 1 — operations on paths.** We already saw:
+- Inverse: handle `rfl` → need `x = x` → give `rfl`. ✓
+- Concatenation: handle `rfl` → need `x = z` given `q : x = z` → give `q`. ✓
+
+**Layer 2 — 2-paths (equalities between paths).** The groupoid laws are *paths between paths*. For example, associativity:
+
+$$(p \cdot q) \cdot r \;=\; p \cdot (q \cdot r)$$
+
+This is a 2-path — an element of the type $((p \cdot q) \cdot r) = (p \cdot (q \cdot r))$. We proved it by applying J three times (cases on $p$, $q$, $r$), reducing everything to `rfl`.
+
+**Concrete 2-path example.** A 2-path is an element of $(p = q)$ where $p, q$ are 1-paths:
+
+```lean
+-- 2-path: right_unit says  p · rfl = p
+-- This is a PATH BETWEEN PATHS.
+theorem right_unit (p : x = y) : p.trans rfl = p := by cases p; rfl
+
+-- How? J says: handle p := rfl.
+-- Then rfl.trans rfl and rfl are definitionally equal → rfl finishes it.
+
+-- right_unit p is an ELEMENT of the type (p.trans rfl = p) — a 2-path!
+#check @right_unit  -- (p : x = y) → p.trans rfl = p
+
+-- More 2-paths, all by the same trick:
+theorem left_unit  (p : x = y) : (rfl).trans p = p := rfl
+theorem inv_inv    (p : x = y) : p.symm.symm = p  := by cases p; rfl
+```
+
+**Concrete 3-path example.** A 3-path is an equality between 2-paths:
+
+```lean
+-- Here are two 2-paths from p.symm.symm to p.
+-- They are EQUAL — and that equality is a 3-path.
+theorem three_path (p : x = y) :
+    let proof1 : p.symm.symm = p := by cases p; rfl
+    let proof2 : p.symm.symm = p := by cases p; rfl
+    proof1 = proof2 := by cases p; rfl
+-- After cases: both proofs become rfl, so they're equal. ✓
+```
+
+**Layer 3 — Mac Lane pentagon.** With four paths, there are five parenthesizations of $p \cdot q \cdot r \cdot s$:
+
+```
+          p · (q · (r · s))
+           ↙              ↘
+  (p · q) · (r · s)      p · ((q · r) · s)
+           ↘              ↙
+         ((p · q) · r) · s
+                ↕
+        (p · (q · r)) · s
+```
+
+Each arrow is a 2-path (associativity). The two routes around the pentagon give two different composite 2-paths. Their equality is a **3-path** — and it too is proved by `cases` + `rfl`:
+
+```lean
+-- A complex equation between 2-paths (a 3-path), proved the same way:
+example (p : x = y) (q : y = z) :
+    (path_assoc p rfl q).trans (congrArg (p.trans ·) (left_unit q))
+    = right_unit p ▸ rfl := by
+  cases p; cases q; rfl
+-- cases on all paths → everything is rfl → done.
+```
+
+**The pattern.** At every layer, the proof is the same: apply J (i.e., `cases`) to reduce all paths to `rfl`, then both sides become definitionally equal, so `rfl` finishes it.
+
+| Layer | What lives there                   | Example                          | How to prove       |
+| ----- | ---------------------------------- | -------------------------------- | ------------------ |
+| 0     | Points $x : A$                     | $0 : \mathbb{N}$                 | —                  |
+| 1     | Paths $p : x = y$                  | `rfl : 0 = 0`                    | constructor        |
+| 2     | 2-paths $\alpha : p = q$           | `right_unit p : p.trans rfl = p` | J (cases p; rfl)   |
+| 3     | 3-paths $\beta : \alpha = \alpha'$ | pentagon coherence               | J (cases all; rfl) |
+| $n$   | $n$-paths                          | coherence of coherences...       | J (cases all; rfl) |
+
+**Why this is remarkable.** In classical ∞-groupoid theory, you must *manually specify* composition, associativity, the pentagon, and infinitely many higher coherences. This is extraordinarily complex data. In type theory, you specify *nothing* — just `rfl` and J. **All infinitely many layers of structure emerge automatically.** This is the sense in which types are *synthetic* ∞-groupoids.
 
 ---
 
