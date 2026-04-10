@@ -37,8 +37,8 @@ def MyFamily : Bool → Type
   | false => String
 
 def familyVal : (b : Bool) → MyFamily b
-  | true  => 42
-  | false => "hello"
+  | true  => (42 : Nat)
+  | false => ("hello" : String)
 
 -- 多态 = Π 对 Type 的特殊情况
 def myId (α : Type) (x : α) : α := x

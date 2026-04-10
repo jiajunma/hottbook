@@ -43,12 +43,14 @@ Types can be read as propositions. An **element** (inhabitant) of a type is a **
 
 ```lean
 -- 命题 = 类型，证明 = 居民
-theorem and_comm (h : A ∧ B) : B ∧ A := ⟨h.2, h.1⟩
+theorem and_swap (h : A ∧ B) : B ∧ A := ⟨h.2, h.1⟩
 
-theorem imp_trans (f : A → B) (g : B → C) : A → C :=
+-- 蕴含的传递性 = 函数组合
+def imp_trans' (f : A → B) (g : B → C) : A → C :=
   fun a => g (f a)
 
-theorem dne_intro (a : A) : ¬¬A :=
+-- 双重否定引入
+theorem dne_intro (a : α) : ¬¬α :=
   fun notA => notA a
 
 -- 排中律不是自动成立的

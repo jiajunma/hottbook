@@ -221,8 +221,8 @@ def MyFamily : Bool → Type
 ```lean
 -- Dependent function: return type varies with input
 def familyVal : (b : Bool) → MyFamily b
-  | true  => 42
-  | false => "hello"
+  | true  => (42 : Nat)
+  | false => ("hello" : String)
 
 #eval familyVal true    -- 42 : Nat
 #eval familyVal false   -- "hello" : String

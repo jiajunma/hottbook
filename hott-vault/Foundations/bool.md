@@ -24,18 +24,16 @@ $$0_{\mathbf{2}} : \mathbf{2} \qquad 1_{\mathbf{2}} : \mathbf{2}$$
 ## Lean 4
 
 ```lean
--- 自己定义 Bool
+-- 自己定义 Bool（避免与标准库 Bool 冲突）
 inductive MyBool where
-  | false : MyBool
-  | true  : MyBool
-
-open MyBool
+  | myFalse : MyBool
+  | myTrue  : MyBool
 
 -- 递归子 = if-then-else
 def myIte (b : MyBool) (t f : α) : α :=
   match b with
-  | true  => t
-  | false => f
+  | .myTrue  => t
+  | .myFalse => f
 
 #eval myIte true "yes" "no"   -- "yes"
 ```
