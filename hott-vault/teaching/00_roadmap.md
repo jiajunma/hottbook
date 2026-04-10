@@ -59,9 +59,23 @@ Zero setup — browser only. Lean **is** dependent type theory, not an analogy f
 | **Part 3** (50 min) | Propositions as types, proofs, identity types | §1.11, §1.12 |
 | Summary (5 min) | Big picture | |
 
+### Lecture 2: Homotopy Type Theory (Ch2, 3h)
+
+**Lesson plan**: [[teaching/ch02_lesson_plan]]
+
+| Block | Content | Covers |
+|---|---|---|
+| **Part 1** (50 min) | Paths, inverse, concatenation, groupoid laws | §2.1 |
+| Break (10 min) | | |
+| **Part 2** (50 min) | ap, transport, homotopies, equivalences | §2.2–§2.4 |
+| Break (10 min) | | |
+| **Part 3** (50 min) | Paths in type formers, funext, univalence | §2.5–§2.10 |
+| Summary (5 min) | Big picture | |
+
 ## Resources
 
-- **Lesson plan**: [[teaching/ch01_lesson_plan]]
+- **Lesson plans**: [[teaching/ch01_lesson_plan]], [[teaching/ch02_lesson_plan]]
 - **Symbol guide**: [[teaching/symbol_guide]]
-- **Concept notes**: [[Foundations/00_MOC]]
-- **Book digest**: [[book/ch01_type_theory]]
+- **Concept notes**: [[Foundations/00_MOC]], [[Identity_and_Paths/00_MOC]]
+- **Book digests**: [[book/ch01_type_theory]], [[book/ch02_homotopy_type_theory]]
+- **Biographies**: [[teaching/curry_howard_bios]]
