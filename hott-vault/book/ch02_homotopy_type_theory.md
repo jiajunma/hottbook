@@ -51,13 +51,13 @@ This section derives path inversion, concatenation, and groupoid laws from the i
 An element $p : x =_A y$ of the identity type is called a path from $x$ to $y$.
 
 **环路空间 / Loop space:**
-$$\Omega(A,a) \defeq (a =_A a, \, \mathsf{refl}_a)$$
+$$\Omega(A,a) :\equiv (a =_A a, \, \mathsf{refl}_a)$$
 
 $n$-fold iterated loop space:
-$$\Omega^0(A,a) \defeq (A,a), \qquad \Omega^{n+1}(A,a) \defeq \Omega^n(\Omega(A,a))$$
+$$\Omega^0(A,a) :\equiv (A,a), \qquad \Omega^{n+1}(A,a) :\equiv \Omega^n(\Omega(A,a))$$
 
 **pointed type / 带基点类型:**
-$$(A,a) \text{ where } A:\mathcal{U}, \; a:A, \qquad \mathcal{U}_\bullet \defeq \sum_{A:\mathcal{U}} A$$
+$$(A,a) \text{ where } A:\mathcal{U}, \; a:A, \qquad \mathcal{U}_\bullet :\equiv \sum_{A:\mathcal{U}} A$$
 
 ### 关键引理 / Key Lemmas
 
@@ -98,7 +98,7 @@ $$\alpha \cdot \beta = \beta \cdot \alpha, \qquad \text{for all } \alpha, \beta 
 **Whiskering / 鞭打运算:**
 - 右 whiskering: $\alpha \triangleright r : p \cdot r = q \cdot r$（对 2-path $\alpha : p = q$ 和 1-path $r$）
 - 左 whiskering: $q \triangleleft \beta : q \cdot r = q \cdot s$（对 1-path $q$ 和 2-path $\beta : r = s$）
-- 水平拼接: $\alpha \star \beta \defeq (\alpha \triangleright r) \cdot (q \triangleleft \beta)$
+- 水平拼接: $\alpha \star \beta :\equiv (\alpha \triangleright r) \cdot (q \triangleleft \beta)$
 
 ### 关键例子 / Key Examples
 
@@ -126,7 +126,7 @@ Every function $f : A \to B$ automatically preserves path structure. Topological
 $$\mathsf{ap}_f : (x =_A y) \to (f(x) =_B f(y))$$
 满足 $\mathsf{ap}_f(\mathsf{refl}_x) \equiv \mathsf{refl}_{f(x)}$。
 
-*证明：* 路径归纳。在 $p \equiv \mathsf{refl}_x$ 的情况下，定义 $\mathsf{ap}_f(\mathsf{refl}_x) \defeq \mathsf{refl}_{f(x)}$。
+*证明：* 路径归纳。在 $p \equiv \mathsf{refl}_x$ 的情况下，定义 $\mathsf{ap}_f(\mathsf{refl}_x) :\equiv \mathsf{refl}_{f(x)}$。
 
 ### 关键定理 / Key Theorems
 
@@ -211,18 +211,18 @@ Defines "sameness" between functions (homotopy) and between types (equivalence).
 
 **Definition 2.4.1 (Homotopy / 同伦):**
 设 $f, g : \prod_{x:A} P(x)$，从 $f$ 到 $g$ 的同伦为
-$$(f \sim g) \defeq \prod_{x:A} (f(x) = g(x))$$
+$$(f \sim g) :\equiv \prod_{x:A} (f(x) = g(x))$$
 
 > **注意：** 同伦 $f \sim g$ 不等于恒等 $f = g$。需要函数外延性公理（2.9 节）才能建立两者的等价。
 
 **Definition 2.4.6 (Quasi-inverse / 拟逆):**
 函数 $f : A \to B$ 的拟逆为三元组 $(g, \alpha, \beta)$：
-$$\mathsf{qinv}(f) \defeq \sum_{g:B \to A} (f \circ g \sim \mathrm{id}_B) \times (g \circ f \sim \mathrm{id}_A)$$
+$$\mathsf{qinv}(f) :\equiv \sum_{g:B \to A} (f \circ g \sim \mathrm{id}_B) \times (g \circ f \sim \mathrm{id}_A)$$
 
 > $\mathsf{qinv}(f)$ 在证明相关数学中行为不好（同一个 $f$ 可能有多个不等的拟逆）。因此需要更好的定义。
 
 **等价的好定义 / Good notion of equivalence:**
-$$\mathsf{isequiv}(f) \defeq \Big(\sum_{g:B \to A} (f \circ g \sim \mathrm{id}_B)\Big) \times \Big(\sum_{h:B \to A} (h \circ f \sim \mathrm{id}_A)\Big)$$
+$$\mathsf{isequiv}(f) :\equiv \Big(\sum_{g:B \to A} (f \circ g \sim \mathrm{id}_B)\Big) \times \Big(\sum_{h:B \to A} (h \circ f \sim \mathrm{id}_A)\Big)$$
 
 满足三个性质：
 1. $\mathsf{qinv}(f) \to \mathsf{isequiv}(f)$
@@ -230,7 +230,7 @@ $$\mathsf{isequiv}(f) \defeq \Big(\sum_{g:B \to A} (f \circ g \sim \mathrm{id}_B
 3. 对任意 $e_1, e_2 : \mathsf{isequiv}(f)$，有 $e_1 = e_2$（命题性）
 
 **等价类型 / Equivalence type:**
-$$(A \simeq B) \defeq \sum_{f : A \to B} \mathsf{isequiv}(f)$$
+$$(A \simeq B) :\equiv \sum_{f : A \to B} \mathsf{isequiv}(f)$$
 
 ### 关键定理 / Key Theorems
 
@@ -305,7 +305,7 @@ $$r \cdot s = \mathsf{pair}^=(\mathsf{ap}_{\pi_1}(r) \cdot \mathsf{ap}_{\pi_1}(s
 $$p_*(x) = (p_*^A(\pi_1(x)), \, p_*^B(\pi_2(x)))$$
 
 **Theorem 2.6.5 ($\mathsf{ap}$ for products / 积的 $\mathsf{ap}$):**
-设 $f(x) \defeq (g(\pi_1(x)), h(\pi_2(x)))$，则
+设 $f(x) :\equiv (g(\pi_1(x)), h(\pi_2(x)))$，则
 $$\mathsf{ap}_f(\mathsf{pair}^=(p, q)) = \mathsf{pair}^=(\mathsf{ap}_g(p), \mathsf{ap}_h(q))$$
 
 ---
@@ -420,7 +420,7 @@ Univalence is the most revolutionary axiom of HoTT. It asserts "equivalent types
 
 **Lemma 2.10.1 ($\mathsf{idtoeqv}$):**
 $$\mathsf{idtoeqv} : (A =_\mathcal{U} B) \to (A \simeq B)$$
-定义为 $\mathsf{idtoeqv}(p) \defeq \mathsf{transport}^{X \mapsto X}(p, -)$（路径归纳证明它是等价）。
+定义为 $\mathsf{idtoeqv}(p) :\equiv \mathsf{transport}^{X \mapsto X}(p, -)$（路径归纳证明它是等价）。
 
 **Axiom 2.10.3 (Univalence / Univalence 公理):**
 对任意 $A, B : \mathcal{U}$，$\mathsf{idtoeqv}$ 是等价。
@@ -506,7 +506,7 @@ Coproducts are the first "positive type" path characterization. The core method 
 
 **Theorem 2.12.5 (Paths in coproducts / 余积中的路径):**
 固定 $a_0 : A$，定义 $\mathsf{code} : A + B \to \mathcal{U}$：
-$$\mathsf{code}(\mathsf{inl}(a)) \defeq (a_0 = a), \qquad \mathsf{code}(\mathsf{inr}(b)) \defeq \mathbf{0}$$
+$$\mathsf{code}(\mathsf{inl}(a)) :\equiv (a_0 = a), \qquad \mathsf{code}(\mathsf{inr}(b)) :\equiv \mathbf{0}$$
 
 则对所有 $x : A + B$：
 $$(\mathsf{inl}(a_0) = x) \simeq \mathsf{code}(x)$$
@@ -517,8 +517,8 @@ $$(\mathsf{inl}(a_0) = x) \simeq \mathsf{code}(x)$$
 3. **不相交性 / Disjointness:** $(\mathsf{inl}(a) = \mathsf{inr}(b)) \simeq \mathbf{0}$
 
 **Encode-Decode 方法 / Encode-Decode Method:**
-- $\mathsf{encode}(x, p) \defeq \mathsf{transport}^\mathsf{code}(p, \mathsf{refl}_{a_0})$ — 沿 $p$ 传输反射
-- $\mathsf{decode}(\mathsf{inl}(a), c) \defeq \mathsf{ap}_\mathsf{inl}(c)$ — 应用 $\mathsf{inl}$ 的 $\mathsf{ap}$
+- $\mathsf{encode}(x, p) :\equiv \mathsf{transport}^\mathsf{code}(p, \mathsf{refl}_{a_0})$ — 沿 $p$ 传输反射
+- $\mathsf{decode}(\mathsf{inl}(a), c) :\equiv \mathsf{ap}_\mathsf{inl}(c)$ — 应用 $\mathsf{inl}$ 的 $\mathsf{ap}$
 - $\mathsf{decode}(\mathsf{inr}(b), c)$ — 由 $c : \mathbf{0}$ 的消去规则
 
 > **特别地 / In particular:** $\mathbf{2} \equiv \mathbf{1} + \mathbf{1}$ 意味着 $\mathsf{false} \neq \mathsf{true}$。
@@ -547,7 +547,7 @@ Natural numbers are also a positive type. Their path space, characterized via en
 | $0$ | $\mathbf{1}$ | $\mathbf{0}$ |
 | $\mathsf{succ}(m)$ | $\mathbf{0}$ | $\mathsf{code}(m, n)$ |
 
-$r : \prod_{n:\mathbb{N}} \mathsf{code}(n, n)$ 定义为 $r(0) \defeq \star$，$r(\mathsf{succ}(n)) \defeq r(n)$。
+$r : \prod_{n:\mathbb{N}} \mathsf{code}(n, n)$ 定义为 $r(0) :\equiv \star$，$r(\mathsf{succ}(n)) :\equiv r(n)$。
 
 ### 关键定理 / Key Theorems
 
@@ -573,10 +573,10 @@ This is the first substantive application of univalence. By concretely computing
 ### 关键定义 / Key Definitions
 
 **半群结构 / Semigroup structure:**
-$$\mathsf{SemigroupStr}(A) \defeq \sum_{m : A \to A \to A} \prod_{x,y,z:A} m(x, m(y,z)) = m(m(x,y), z)$$
+$$\mathsf{SemigroupStr}(A) :\equiv \sum_{m : A \to A \to A} \prod_{x,y,z:A} m(x, m(y,z)) = m(m(x,y), z)$$
 
 **半群 / Semigroup:**
-$$\mathsf{Semigroup} \defeq \sum_{A:\mathcal{U}} \mathsf{SemigroupStr}(A)$$
+$$\mathsf{Semigroup} :\equiv \sum_{A:\mathcal{U}} \mathsf{SemigroupStr}(A)$$
 
 ### 关键结果 / Key Results
 
@@ -640,7 +640,7 @@ $$\Big(\prod_{x:A} \prod_{p:a=x} B(x,p)\Big) \;\simeq\; B(a, \mathsf{refl}_a)$$
 > 右到左方向正是路径归纳原则！
 
 **Pullbacks / 拉回:**
-$$A \times_C B \defeq \sum_{a:A} \sum_{b:B} (f(a) = g(b))$$
+$$A \times_C B :\equiv \sum_{a:A} \sum_{b:B} (f(a) = g(b))$$
 满足 pullback 的泛性质（见 Exercise 2.11）。
 
 ---
