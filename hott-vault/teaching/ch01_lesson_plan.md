@@ -29,9 +29,65 @@ Students open one of the URLs above and verify they can run:
 
 ---
 
-## Part 1: Types and Functions (45 min)
+## Part 1: Types and Functions (50 min)
 
 > §1.1 Judgments, §1.2 Function types, §1.5 Products, §1.7 Coproducts
+
+### 1.0 Why type theory? Set theory vs type theory (10 min)
+
+**Set theory has two layers; type theory has one.**
+
+In ZFC set theory, the foundation has two separate parts:
+- **Layer 1**: First-order logic (the deductive system — how to reason)
+- **Layer 2**: Set-theoretic axioms (what sets exist — ZFC)
+
+Propositions and sets are different kinds of things. You reason *about* sets using logic.
+
+Type theory collapses this into **one layer**: **types** play the role of both sets and propositions simultaneously. Proving a theorem = constructing an element of a type. There is no separate logical layer.
+
+> "Type theory is its own deductive system: it need not be formulated inside any superstructure, such as first-order logic. Instead of the two basic notions of set theory, sets and propositions, type theory has one basic notion: *types*." — HoTT Book §1.1
+
+**The key structural differences:**
+
+| | Set theory (ZFC) | Type theory |
+|---|---|---|
+| Layers | Two (logic + axioms) | One (types) |
+| Membership | $a \in A$ is a **proposition** (can be true or false) | $a : A$ is a **judgment** (either holds or doesn't — cannot be negated) |
+| Elements | Exist independently; then you ask "$a \in A$?" | Cannot exist without a type; "$a : A$" is atomic |
+| Content | In the axioms | In the rules |
+| Computation | Not built in | Built in (β-reduction, canonicity) |
+
+**Russell's paradox and why type theory avoids it.**
+
+In naive set theory, you can form "the set of all sets that don't contain themselves":
+
+$$R = \{x \mid x \notin x\}$$
+
+Then ask: $R \in R$? If yes, then $R \notin R$. If no, then $R \in R$. Contradiction.
+
+ZFC avoids this by restricting comprehension (you can only form subsets of existing sets). But in type theory, the paradox **can't even be stated**:
+
+1. **No self-membership.** In type theory, $a : A$ means $a$ is a term and $A$ is a type — they live at different levels. You cannot write $A : A$ (a type "containing itself") because types and their elements are categorically different things.
+
+2. **Universe hierarchy.** If you want types to be elements of something, you need a **universe**: $\text{Nat} : \text{Type}$. But then what is the type of $\text{Type}$ itself? Not $\text{Type} : \text{Type}$ — that would re-enable the paradox! Instead:
+
+$$\text{Type}_0 : \text{Type}_1 : \text{Type}_2 : \cdots$$
+
+Each universe lives in the next one up. There is no "universe of all universes."
+
+> "A universe is a type whose elements are types. We might wish for a universe of all types including itself. However, this is unsound — we can deduce from it that every type, including the empty type, is inhabited. Using a representation of sets as trees, we can directly encode Russell's paradox." — HoTT Book §1.3
+
+```lean
+-- Lean enforces the universe hierarchy
+#check Nat        -- Nat : Type      (i.e., Type 0)
+#check Type       -- Type : Type 1
+#check Type 1     -- Type 1 : Type 2
+-- No Type : Type — that would be Russell's paradox!
+```
+
+3. **Membership is not a proposition.** You cannot write "$A \notin A$" because $a : A$ is a judgment, not a proposition. There is nothing to negate. The sentence "the type of all types that don't contain themselves" is **grammatically ill-formed** in type theory.
+
+**In short:** set theory patches the paradox after the fact (by restricting axioms). Type theory prevents it structurally (by stratification). The paradox isn't avoided — it's **inexpressible**.
 
 ### 1.1 Entering Lean (10 min)
 

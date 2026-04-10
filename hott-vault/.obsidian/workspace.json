@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "teaching/curry_howard_bios.md",
+                "file": "teaching/ch01_lesson_plan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "curry_howard_bios"
+              "title": "ch01_lesson_plan"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "teaching/curry_howard_bios.md",
+                "file": "teaching/ch01_lesson_plan.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "curry_howard_bios 的反向链接列表"
+              "title": "ch01_lesson_plan 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "teaching/curry_howard_bios.md",
+                "file": "teaching/ch01_lesson_plan.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "curry_howard_bios 的出链列表"
+              "title": "ch01_lesson_plan 的出链列表"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "teaching/curry_howard_bios.md",
+                "file": "teaching/ch01_lesson_plan.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "curry_howard_bios 的大纲"
+              "title": "ch01_lesson_plan 的大纲"
             }
           }
         ]
@@ -185,14 +185,14 @@
   },
   "active": "4c540acad195b094",
   "lastOpenFiles": [
+    "teaching/00_roadmap.md",
+    "teaching/symbol_guide.md",
+    "teaching/curry_howard_bios.md",
     "teaching/img/william_howard.jpg",
     "teaching/img/haskell_curry.jpeg",
     "teaching/img",
     "teaching/ch01_lesson_plan.md",
-    "teaching/curry_howard_bios.md",
-    "teaching/00_roadmap.md",
     "Set_Theory/cumulative_hierarchy.md",
-    "teaching/symbol_guide.md",
     "Category_Theory/00_MOC.md",
     "Axioms/axiom_of_choice.md",
     "teaching",
