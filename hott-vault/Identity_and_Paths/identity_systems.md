@@ -6,7 +6,7 @@ section: 8
 tags: [identity-types, identity-systems, yoneda, equivalence-induction]
 references:
   - "[[02_uniqueness]]"
-  - "[[../../02_HoTT_Basics/01_Identity_Types/00_identity_type]]"
+  - "[[02_HoTT_Basics/01_Identity_Types/00_identity_type]]"
 ---
 
 # 恒等类型与恒等系统 / Identity Types and Identity Systems
@@ -41,6 +41,16 @@ $$D : \prod_{A,B:\mathcal{U}} (A \simeq B) \to \mathsf{Type},\quad d : \prod_{A:
 $$\implies f : \prod_{A,B:\mathcal{U}}\prod_{e:A\simeq B} D(A, B, e)$$
 
 **推论（同伦归纳）.** 类似地，函数外延性等价于"同伦归纳"。
+
+## Lean 4
+
+```lean
+-- Identity systems generalize the J rule
+-- In Lean, the J rule is built into the match/cases mechanism
+-- #check @Eq.rec  -- the basic eliminator
+```
+
+---
 
 ## 参考文献 / References
 

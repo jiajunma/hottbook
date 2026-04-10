@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "teaching/ch01_lesson_plan.md",
+                "file": "teaching/ch02_lesson_plan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch01_lesson_plan"
+              "title": "ch02_lesson_plan"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "teaching/ch01_lesson_plan.md",
+                "file": "teaching/ch02_lesson_plan.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "ch01_lesson_plan 的反向链接列表"
+              "title": "ch02_lesson_plan 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "teaching/ch01_lesson_plan.md",
+                "file": "teaching/ch02_lesson_plan.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "ch01_lesson_plan 的出链列表"
+              "title": "ch02_lesson_plan 的出链列表"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "teaching/ch01_lesson_plan.md",
+                "file": "teaching/ch02_lesson_plan.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "ch01_lesson_plan 的大纲"
+              "title": "ch02_lesson_plan 的大纲"
             }
           }
         ]
@@ -185,9 +185,10 @@
   },
   "active": "4c540acad195b094",
   "lastOpenFiles": [
+    "Identity_and_Paths/paths_in_identity.md.tmp.21562.1775833516206",
+    "teaching/ch01_lesson_plan.md",
     "teaching/ch02_lesson_plan.md",
     "teaching/00_roadmap.md",
-    "teaching/ch01_lesson_plan.md",
     "teaching/symbol_guide.md",
     "teaching/curry_howard_bios.md",
     "teaching/img/william_howard.jpg",
@@ -215,7 +216,6 @@
     "Set_Theory/ordinal_numbers.md",
     "Higher_Inductive_Types/00_MOC.md",
     "book",
-    "Foundations/bool.md",
     "Real_Numbers",
     "Set_Theory",
     "Category_Theory",

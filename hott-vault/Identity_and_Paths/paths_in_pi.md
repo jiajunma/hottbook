@@ -5,10 +5,10 @@ chapter: 2
 section: 9
 tags: [pi-type, function-extensionality, funext, happly, pointwise, axiom]
 references:
-  - "[[00_overview]]"
-  - "[[../03_Equivalences/00_homotopy]]"
-  - "[[../04_Axioms/01_function_extensionality]]"
-  - "[[../04_Axioms/02_univalence]]"
+  - "[[00_MOC]]"
+  - "[[Equivalences/homotopy]]"
+  - "[[Axioms/function_extensionality]]"
+  - "[[Axioms/univalence]]"
 ---
 
 # Π-types and Function Extensionality / Π-类型与函数外延性公理
@@ -90,18 +90,29 @@ $$(\mathsf{transport}^{A \to B}(p, f) = g) \simeq \prod_{a : A(x)} (\mathsf{tran
 
 ## 与一致性的关系 / Relationship to Univalence
 
-函数外延性可以从一致性公理推出（见 [[../04_Axioms/02_univalence|Section 2.10]]）。也可以从区间类型推出。
+函数外延性可以从一致性公理推出（见 [[Axioms/univalence|Section 2.10]]）。也可以从区间类型推出。
 
 ---
 
 ## 相关概念 / Related Concepts
 
-- [[../03_Equivalences/00_homotopy|Homotopies / 同伦]]
-- [[../04_Axioms/01_function_extensionality|Function Extensionality (detail) / 函数外延性 (详述)]]
-- [[../04_Axioms/02_univalence|Univalence Axiom / 一致性公理]]
+- [[Equivalences/homotopy|Homotopies / 同伦]]
+- [[Axioms/function_extensionality|Function Extensionality (detail) / 函数外延性 (详述)]]
+- [[Axioms/univalence|Univalence Axiom / 一致性公理]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.9: Π-types and the function extensionality axiom
+
+---
+
+## Lean 4
+
+```lean
+-- Function extensionality
+#check @funext   -- (∀ x, f x = g x) → f = g
+
+example (f g : Nat → Nat) (h : ∀ x, f x = g x) : f = g := funext h
+```

@@ -5,9 +5,9 @@ chapter: 2
 section: 7
 tags: [sigma-type, dependent-pair, path, transport, path-over]
 references:
-  - "[[00_overview]]"
-  - "[[01_product]]"
-  - "[[../02_Paths/02_transport]]"
+  - "[[00_MOC]]"
+  - "[[paths_in_products]]"
+  - "[[transport]]"
 ---
 
 # Σ-types / Σ-类型
@@ -70,12 +70,22 @@ $$\mathsf{pair}^=(p, \mathsf{refl}_{p_*(u)}) : (x, u) = (y, p_*(u))$$
 
 ## 相关概念 / Related Concepts
 
-- [[01_product|Cartesian Product Types / 笛卡尔积类型]] -- 特例
-- [[../02_Paths/02_transport|Transport / 传输]]
-- [[00_overview|Overview / 概述]]
+- [[paths_in_products|Cartesian Product Types / 笛卡尔积类型]] -- 特例
+- [[transport|Transport / 传输]]
+- [[00_MOC|Overview / 概述]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.7: Σ-types
+
+---
+
+## Lean 4
+
+```lean
+-- Paths in Sigma: a path in the base + transported fiber
+#check @Sigma.ext_iff
+-- ⟨a, b⟩ = ⟨a', b'⟩ ↔ ∃ h : a = a', h ▸ b = b'
+```

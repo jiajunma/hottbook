@@ -52,6 +52,18 @@ next:
 | van Kampen | 截断环路空间 |
 | Blakers-Massey | 连通性 |
 
+## Lean 4
+
+```lean
+-- Encode-decode method: characterize path spaces
+-- Example: paths in Nat
+-- encode : (n = m) → (code n m)  where code is a custom type
+-- decode : (code n m) → (n = m)
+-- Show they are inverses
+```
+
+---
+
 ## 参考 / References
 
 - HoTT Book, Section 8.9

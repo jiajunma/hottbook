@@ -5,8 +5,8 @@ chapter: 2
 section: 8
 tags: [unit-type, contractible, path]
 references:
-  - "[[00_overview]]"
-  - "[[01_product]]"
+  - "[[00_MOC]]"
+  - "[[paths_in_products]]"
 ---
 
 # The Unit Type / 单元类型
@@ -43,11 +43,22 @@ $\mathbf{1}$ 中的传输引理是常类型族传输引理的特例。
 
 ## 相关概念 / Related Concepts
 
-- [[00_overview|Overview / 概述]]
-- [[01_product|Product Types / 积类型]]
+- [[00_MOC|Overview / 概述]]
+- [[paths_in_products|Product Types / 积类型]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.8: The unit type
+
+---
+
+## Lean 4
+
+```lean
+-- All elements of Unit are equal
+example (a b : Unit) : a = b := by cases a; cases b; rfl
+
+-- Unit is a "contractible" type
+```

@@ -5,10 +5,10 @@ chapter: 2
 section: 3
 tags: [transport, fibration, path-lifting, apd, dependent-map, type-family]
 references:
-  - "[[00_path]]"
-  - "[[01_ap]]"
-  - "[[../03_Equivalences/00_homotopy]]"
-  - "[[../04_Transport_in_Type_Formers/00_overview]]"
+  - "[[path_operations]]"
+  - "[[ap]]"
+  - "[[Equivalences/homotopy]]"
+  - "[[Transport_in_Type_Formers/overview]]"
 ---
 
 # Type Families are Fibrations / 类型族是纤维化
@@ -26,6 +26,18 @@ $$\mathsf{transport}^P(p, -) : P(x) \to P(y)$$
 > Suppose that $P$ is a type family over $A$ and that $p : x =_A y$. Then there is a function $\mathsf{transport}^P(p, -) : P(x) \to P(y)$.
 
 **证明**: 通过路径归纳，只需处理 $p \equiv \mathsf{refl}_x$ 的情况，此时取 $\mathsf{transport}^P(\mathsf{refl}_x, -) : P(x) \to P(x)$ 为恒等函数。
+
+## Lean 4
+
+```lean
+-- Transport: move data along a path
+-- In Lean, this is subst / Eq.mpr / ▸
+def myTransport (P : α → Sort u) (p : a = b) (u : P a) : P b :=
+  p ▸ u
+
+-- Example: transport along n = m converts Vec n to Vec m  
+-- Path lifting is implicit in Lean's Sigma/Subtype handling
+```
 
 ### 解读 / Interpretations
 
@@ -100,9 +112,9 @@ $$\mathsf{apd}_f(p) = \mathsf{transportconst}^B(p, f(x)) \cdot \mathsf{ap}_f(p)$
 
 ## 相关概念 / Related Concepts
 
-- [[00_path|Path Operations / 路径操作]]
-- [[01_ap|ap: Functions are Functors / 函数是函子]]
-- [[../04_Transport_in_Type_Formers/00_overview|Transport in Type Formers / 类型构造子中的传输]]
+- [[path_operations|Path Operations / 路径操作]]
+- [[ap|ap: Functions are Functors / 函数是函子]]
+- [[Transport_in_Type_Formers/overview|Transport in Type Formers / 类型构造子中的传输]]
 
 ---
 

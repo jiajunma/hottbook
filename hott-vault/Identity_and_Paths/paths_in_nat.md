@@ -5,9 +5,9 @@ chapter: 2
 section: 13
 tags: [natural-numbers, encode-decode, code, successor, injectivity]
 references:
-  - "[[01_coproduct]]"
-  - "[[../02_Paths/02_transport]]"
-  - "[[../04_Transport_in_Type_Formers/03_unit]]"
+  - "[[paths_in_coproducts]]"
+  - "[[transport]]"
+  - "[[paths_in_unit]]"
 ---
 
 # Natural Numbers / 自然数
@@ -24,15 +24,15 @@ $$\mathsf{code} : \mathbb{N} \to \mathbb{N} \to \mathcal{U}$$
 
 通过对 $\mathbb{N}$ 的双重递归定义：
 
-$$\mathsf{code}(0, 0) \defeq \mathbf{1}$$
-$$\mathsf{code}(\mathsf{succ}(m), 0) \defeq \mathbf{0}$$
-$$\mathsf{code}(0, \mathsf{succ}(n)) \defeq \mathbf{0}$$
-$$\mathsf{code}(\mathsf{succ}(m), \mathsf{succ}(n)) \defeq \mathsf{code}(m, n)$$
+$$\mathsf{code}(0, 0) :\equiv \mathbf{1}$$
+$$\mathsf{code}(\mathsf{succ}(m), 0) :\equiv \mathbf{0}$$
+$$\mathsf{code}(0, \mathsf{succ}(n)) :\equiv \mathbf{0}$$
+$$\mathsf{code}(\mathsf{succ}(m), \mathsf{succ}(n)) :\equiv \mathsf{code}(m, n)$$
 
 还定义依赖函数 $r : \prod_{n:\mathbb{N}} \mathsf{code}(n, n)$：
 
-$$r(0) \defeq \star$$
-$$r(\mathsf{succ}(n)) \defeq r(n)$$
+$$r(0) :\equiv \star$$
+$$r(\mathsf{succ}(n)) :\equiv r(n)$$
 
 ---
 
@@ -46,7 +46,7 @@ $$\boxed{(m = n) \simeq \mathsf{code}(m, n)}$$
 
 **证明**:
 
-**编码 / Encode**: $\mathsf{encode}(m, n, p) \defeq \mathsf{transport}^{\mathsf{code}(m, -)}(p, r(m))$
+**编码 / Encode**: $\mathsf{encode}(m, n, p) :\equiv \mathsf{transport}^{\mathsf{code}(m, -)}(p, r(m))$
 
 **解码 / Decode**: 通过对 $m, n$ 的双重归纳：
 - $m \equiv 0, n \equiv 0$: $\mathbf{1} \to (0 = 0)$，映所有东西到 $\mathsf{refl}_0$
@@ -79,11 +79,23 @@ $\mathbb{N}$ 作为正类型，其路径空间的刻画使用了与余积相同�
 
 ## 相关概念 / Related Concepts
 
-- [[01_coproduct|Coproducts / 余积]] -- 使用相同方法
-- [[../04_Transport_in_Type_Formers/03_unit|Unit Type / 单元类型]]
+- [[paths_in_coproducts|Coproducts / 余积]] -- 使用相同方法
+- [[paths_in_unit|Unit Type / 单元类型]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.13: Natural numbers
+
+---
+
+## Lean 4
+
+```lean
+-- succ is injective
+#check @Nat.succ_injective  -- succ m = succ n → m = n
+
+-- 0 ≠ succ n
+example (n : Nat) : ¬ (0 = n + 1) := Nat.noConfusion
+```

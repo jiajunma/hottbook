@@ -5,10 +5,10 @@ chapter: 2
 section: 6
 tags: [product-type, path, pairpath, transport, ap]
 references:
-  - "[[00_overview]]"
-  - "[[02_sigma]]"
-  - "[[../02_Paths/01_ap]]"
-  - "[[../02_Paths/02_transport]]"
+  - "[[00_MOC]]"
+  - "[[paths_in_sigma]]"
+  - "[[ap]]"
+  - "[[transport]]"
 ---
 
 # Cartesian Product Types / 笛卡尔积类型
@@ -67,7 +67,7 @@ $$\mathsf{transport}^{A \times B}(p, x) = (\mathsf{transport}^A(p, \mathsf{pr}_1
 
 ### Theorem 2.6.5
 
-给定 $g : A \to A'$，$h : B \to B'$，定义 $f : A \times B \to A' \times B'$ 为 $f(x) \defeq (g(\mathsf{pr}_1(x)), h(\mathsf{pr}_2(x)))$。则对于 $p : \mathsf{pr}_1(x) = \mathsf{pr}_1(y)$，$q : \mathsf{pr}_2(x) = \mathsf{pr}_2(y)$：
+给定 $g : A \to A'$，$h : B \to B'$，定义 $f : A \times B \to A' \times B'$ 为 $f(x) :\equiv (g(\mathsf{pr}_1(x)), h(\mathsf{pr}_2(x)))$。则对于 $p : \mathsf{pr}_1(x) = \mathsf{pr}_1(y)$，$q : \mathsf{pr}_2(x) = \mathsf{pr}_2(y)$：
 
 $$\mathsf{ap}_f(\mathsf{pair}^=(p, q)) = \mathsf{pair}^=(\mathsf{ap}_g(p), \mathsf{ap}_h(q))$$
 
@@ -75,11 +75,23 @@ $$\mathsf{ap}_f(\mathsf{pair}^=(p, q)) = \mathsf{pair}^=(\mathsf{ap}_g(p), \math
 
 ## 相关概念 / Related Concepts
 
-- [[02_sigma|Σ-types / Σ-类型]] -- 积类型的推广
-- [[../02_Paths/02_transport|Transport / 传输]]
+- [[paths_in_sigma|Σ-types / Σ-类型]] -- 积类型的推广
+- [[transport|Transport / 传输]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.6: Cartesian product types
+
+---
+
+## Lean 4
+
+```lean
+-- Paths in products: componentwise
+example (a b : α × β) : a = b ↔ (a.1 = b.1 ∧ a.2 = b.2) := by
+  constructor
+  · intro h; exact ⟨congrArg Prod.fst h, congrArg Prod.snd h⟩
+  · intro ⟨h1, h2⟩; exact Prod.ext h1 h2
+```

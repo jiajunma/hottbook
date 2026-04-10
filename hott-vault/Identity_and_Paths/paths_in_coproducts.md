@@ -5,9 +5,9 @@ chapter: 2
 section: 12
 tags: [coproduct, encode-decode, code, positive-type, disjointness, injectivity]
 references:
-  - "[[00_identity_type_paths]]"
-  - "[[02_nat]]"
-  - "[[../02_Paths/02_transport]]"
+  - "[[identity_type]]"
+  - "[[paths_in_nat]]"
+  - "[[transport]]"
 ---
 
 # Coproducts / 余积
@@ -32,8 +32,8 @@ references:
 
 固定 $a_0 : A$，定义类型族 $\mathsf{code} : A + B \to \mathcal{U}$：
 
-$$\mathsf{code}(\mathsf{inl}(a)) \defeq (a_0 = a)$$
-$$\mathsf{code}(\mathsf{inr}(b)) \defeq \mathbf{0}$$
+$$\mathsf{code}(\mathsf{inl}(a)) :\equiv (a_0 = a)$$
+$$\mathsf{code}(\mathsf{inr}(b)) :\equiv \mathbf{0}$$
 
 关键洞察：可以使用 $A + B$ 的递归原理来**定义** $\mathsf{code}$。
 
@@ -49,7 +49,7 @@ $$(\mathsf{inl}(a_0) = x) \simeq \mathsf{code}(x)$$
 
 **证明 (编码-解码方法)**:
 
-1. **编码 / Encode**: $\mathsf{encode}(x, p) \defeq \mathsf{transport}^{\mathsf{code}}(p, \mathsf{refl}_{a_0})$
+1. **编码 / Encode**: $\mathsf{encode}(x, p) :\equiv \mathsf{transport}^{\mathsf{code}}(p, \mathsf{refl}_{a_0})$
 
 2. **解码 / Decode**: 对 $x$ 做余积消去
    - 若 $x \equiv \mathsf{inl}(a)$：$\mathsf{code}(x) \equiv (a_0 = a)$，取 $c \mapsto \mathsf{ap}_{\mathsf{inl}}(c)$
@@ -94,11 +94,21 @@ $$\mathsf{transport}^{A + B}(p, \mathsf{inr}(b)) = \mathsf{inr}(\mathsf{transpor
 
 ## 相关概念 / Related Concepts
 
-- [[02_nat|Natural Numbers / 自然数]]
-- [[../02_Paths/02_transport|Transport / 传输]]
+- [[paths_in_nat|Natural Numbers / 自然数]]
+- [[transport|Transport / 传输]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.12: Coproducts
+
+---
+
+## Lean 4
+
+```lean
+-- inl ≠ inr (different constructors are never equal)
+-- In Lean: Sum.noConfusion or Nat.noConfusion
+example : ¬ (Sum.inl 0 = Sum.inr "hi") := Sum.noConfusion
+```

@@ -5,9 +5,9 @@ chapter: 1
 section: 12
 tags: [type-theory, identity-type, path, equality]
 references:
-  - "[[../00_Overview]]"
-  - "[[../01_Judgments/00_judgment]]"
-  - "[[../04_Propositions_as_Types/00_propositions_as_types]]"
+  - "[[Overview]]"
+  - "[[judgment]]"
+  - "[[propositions_as_types]]"
 ---
 
 # 恒等类型 / Identity Types
@@ -19,6 +19,19 @@ references:
 $$\mathsf{Id}_A(a, b) \quad \text{或简写为} \quad a =_A b$$
 
 当存在 $p : a =_A b$ 时，我们说 $a$ 和 $b$ 是**(命题) 相等的 (propositionally equal)**。
+
+## Lean 4
+
+```lean
+-- Identity type: a = b is a type
+#check @Eq       -- Eq : α → α → Prop (in Lean, = is in Prop)
+#check @rfl      -- rfl : a = a
+
+-- Path induction (J rule): to prove P for all p : x = y,
+-- suffice to prove P for rfl : x = x
+example (P : {y : α} → x = y → Prop) (d : P rfl) (p : x = y) : P p :=
+  p ▸ d   -- subst
+```
 
 ## 引入规则 / Introduction: Reflexivity
 
@@ -36,7 +49,7 @@ $$c : \prod_{x:A} C(x, x, \mathsf{refl}_x)$$
 
 则：
 
-$$\mathsf{ind}_{=_A}(C, c, x, x, \mathsf{refl}_x) \jdeq c(x)$$
+$$\mathsf{ind}_{=_A}(C, c, x, x, \mathsf{refl}_x) \equiv c(x)$$
 
 ### 基于点的路径归纳 / Based Path Induction
 
@@ -58,7 +71,7 @@ $$c : C(a, \mathsf{refl}_a)$$
 
 | 定义相等 / Definitional | 命题相等 / Propositional |
 |----------------------|----------------------|
-| $a \jdeq b$ | $p : a =_A b$ |
+| $a \equiv b$ | $p : a =_A b$ |
 | 判断层面 (metalevel) | 类型层面 (internal) |
 | 由计算/定义决定 | 需要证明 |
 | 不能否定或假设 | 是一个类型，可以操作 |
@@ -88,9 +101,9 @@ $$\mathsf{transport}^C(p, -) : C(a) \to C(b)$$
 
 ## 相关概念 / Related Concepts
 
-- [[../01_Judgments/00_judgment|判断]] — 定义相等 vs 命题相等
-- [[../04_Propositions_as_Types/00_propositions_as_types|命题即类型]] — 恒等类型 = 等式命题
-- [[../../02_HoTT_Basics/01_Types_are_Groupoids/00_groupoid_structure|群胚结构]] — 恒等类型的高阶结构
+- [[judgment|判断]] — 定义相等 vs 命题相等
+- [[propositions_as_types|命题即类型]] — 恒等类型 = 等式命题
+- [[groupoid_structure|群胚结构]] — 恒等类型的高阶结构
 
 ## 参考文献 / References
 

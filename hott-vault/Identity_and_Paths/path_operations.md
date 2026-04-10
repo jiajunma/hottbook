@@ -5,15 +5,33 @@ chapter: 2
 section: 1
 tags: [path, groupoid, concatenation, inverse, reflexivity, associativity, loop-space, eckmann-hilton]
 references:
-  - "[[../01_Identity_Types/00_identity_type]]"
-  - "[[01_ap]]"
-  - "[[02_transport]]"
-  - "[[../03_Equivalences/00_homotopy]]"
+  - "[[identity_type]]"
+  - "[[ap]]"
+  - "[[transport]]"
+  - "[[Equivalences/homotopy]]"
 ---
 
 # Types are Higher Groupoids / 类型是高维群胚
 
 ## 路径操作 / Path Operations
+
+## Lean 4
+
+```lean
+-- Inverse (symmetry)
+#check @Eq.symm   -- a = b → b = a
+example (p : x = y) : y = x := p.symm
+
+-- Concatenation (transitivity)
+#check @Eq.trans   -- a = b → b = c → a = c
+example (p : x = y) (q : y = z) : x = z := p.trans q
+
+-- Groupoid laws (all proved by cases on the paths)
+theorem inv_inv (p : x = y) : p.symm.symm = p := by cases p; rfl
+theorem trans_inv (p : x = y) : p.trans p.symm = rfl := by cases p; rfl
+theorem assoc (p : x = y) (q : y = z) (r : z = w) :
+    (p.trans q).trans r = p.trans (q.trans r) := by cases p; cases q; cases r; rfl
+```
 
 ### 反转 (逆) / Inverse
 
@@ -70,10 +88,10 @@ $$p \cdot q : (x = y) \to (y = z) \to (x = z)$$
 
 给定一个带基点的类型 $(A, a)$，定义其**环路空间** (loop space)：
 
-$$\Omega(A, a) \defeq (a =_A a, \mathsf{refl}_a)$$
+$$\Omega(A, a) :\equiv (a =_A a, \mathsf{refl}_a)$$
 
 $n$-重迭代环路空间递归定义为：
-$$\Omega^0(A, a) \defeq (A, a), \quad \Omega^{n+1}(A, a) \defeq \Omega^n(\Omega(A, a))$$
+$$\Omega^0(A, a) :\equiv (A, a), \quad \Omega^{n+1}(A, a) :\equiv \Omega^n(\Omega(A, a))$$
 
 ---
 
@@ -102,9 +120,9 @@ $$\alpha \cdot \beta = \beta \cdot \alpha, \quad \text{对所有 } \alpha, \beta
 
 ## 相关概念 / Related Concepts
 
-- [[../01_Identity_Types/00_identity_type|Identity Type / 恒等类型]]
-- [[01_ap|Functions are Functors / 函数是函子]]
-- [[02_transport|Type Families are Fibrations / 类型族是纤维化]]
+- [[identity_type|Identity Type / 恒等类型]]
+- [[ap|Functions are Functors / 函数是函子]]
+- [[transport|Type Families are Fibrations / 类型族是纤维化]]
 
 ---
 

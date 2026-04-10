@@ -5,9 +5,9 @@ chapter: 2
 section: 14
 tags: [univalence, semigroup, algebraic-structure, isomorphism, transport]
 references:
-  - "[[../04_Axioms/02_univalence]]"
-  - "[[../04_Transport_in_Type_Formers/02_sigma]]"
-  - "[[../04_Transport_in_Type_Formers/04_pi]]"
+  - "[[04_Axioms/02_univalence]]"
+  - "[[04_Transport_in_Type_Formers/02_sigma]]"
+  - "[[04_Transport_in_Type_Formers/04_pi]]"
 ---
 
 # Equality of Structures / 结构的等式
@@ -20,9 +20,9 @@ references:
 
 ## 半群的定义 / Definition of Semigroup
 
-$$\mathsf{SemigroupStr}(A) \defeq \sum_{m : A \to A \to A} \prod_{x, y, z : A} m(x, m(y, z)) = m(m(x, y), z)$$
+$$\mathsf{SemigroupStr}(A) :\equiv \sum_{m : A \to A \to A} \prod_{x, y, z : A} m(x, m(y, z)) = m(m(x, y), z)$$
 
-$$\mathsf{Semigroup} \defeq \sum_{A : \mathcal{U}} \mathsf{SemigroupStr}(A)$$
+$$\mathsf{Semigroup} :\equiv \sum_{A : \mathcal{U}} \mathsf{SemigroupStr}(A)$$
 
 ---
 
@@ -46,7 +46,7 @@ $$m'(b_1, b_2) = e(m(e^{-1}(b_1), e^{-1}(b_2)))$$
 
 ## 半群的等式 / Equality of Semigroups
 
-给定半群 $(A, m, a)$ 和 $(B, m', a')$，由 [[../04_Transport_in_Type_Formers/02_sigma|Theorem 2.7.2]] (Σ-类型的路径)，路径类型
+给定半群 $(A, m, a)$ 和 $(B, m', a')$，由 [[04_Transport_in_Type_Formers/02_sigma|Theorem 2.7.2]] (Σ-类型的路径)，路径类型
 
 $$(A, m, a) =_{\mathsf{Semigroup}} (B, m', a')$$
 
@@ -76,9 +76,20 @@ $$\prod_{x_1, x_2 : A} e(m(x_1, x_2)) = m'(e(x_1), e(x_2))$$
 
 ## 相关概念 / Related Concepts
 
-- [[../04_Axioms/02_univalence|Univalence Axiom / 一致性公理]]
-- [[../04_Transport_in_Type_Formers/02_sigma|Σ-types / Σ-类型]]
+- [[04_Axioms/02_univalence|Univalence Axiom / 一致性公理]]
+- [[04_Transport_in_Type_Formers/02_sigma|Σ-types / Σ-类型]]
 - [[01_universal_properties|Universal Properties / 泛性质]]
+
+---
+
+## Lean 4
+
+```lean
+-- Equality of structures via Σ-type characterization
+-- E.g., two semigroups (A, m) and (A', m') are equal iff
+-- there's an equiv A ≃ A' respecting m
+-- In Lean/Mathlib: @[ext] lemmas automate this
+```
 
 ---
 

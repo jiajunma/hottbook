@@ -174,14 +174,33 @@ This is the dependent version of `ap`. Given a type family $P : A \to \mathsf{Ty
 > "If $P$ is a type family over $A$ and $p : x =_A y$, then there is a function $\mathsf{transport}^p : P(x) \to P(y)$." — HoTT Book, Lemma 2.3.1
 
 ```lean
--- Lean's built-in: subst or Eq.mpr / Eq.mp
--- transport : (P : A → Type) → (p : x = y) → P x → P y
+-- Transport: move data along a path
+-- transport P p : P x → P y   (when p : x = y)
 
--- Example: if we know n = m and have a Vec n, we get a Vec m
+-- Lean's ▸ notation IS transport
 example (P : Nat → Type) (p : n = m) (u : P n) : P m :=
-  p ▸ u    -- transport along p
+  p ▸ u
 
--- The ▸ notation IS transport
+-- Define it ourselves to see what's happening:
+def myTransport {A : Sort u} (P : A → Sort v) {x y : A} (p : x = y) : P x → P y :=
+  fun u => p ▸ u
+
+-- Concrete example: if we prove 3 = 3, transport is the identity
+example : myTransport (fun n => Vector Nat n) rfl = id := rfl
+
+-- Concrete example: transport along a proof that n = m
+-- converts a "vector of length n" into a "vector of length m"
+-- This is the dependent version of ap.
+```
+
+**Intuition**: think of $P : A \to \mathsf{Type}$ as a "fiber bundle." Each point $x : A$ has a fiber $P(x)$ sitting above it. A path $p : x = y$ lets you "slide" data from fiber $P(x)$ to fiber $P(y)$.
+
+```
+P(x)         P(y)
+  |             |
+  u ---transport---> p ▸ u
+  |             |
+  x -----p----> y       (base space A)
 ```
 
 **Intuition**: think of $P : A \to \mathsf{Type}$ as a "fiber bundle." Each point $x : A$ has a fiber $P(x)$ sitting above it. A path $p : x = y$ in the base $A$ lets you "slide" data from fiber $P(x)$ to fiber $P(y)$. This is the **path lifting property** of fibrations.
@@ -213,9 +232,28 @@ def Homotopy (f g : α → β) := ∀ x, f x = g x
 An **equivalence** $A \simeq B$ is a function $f : A \to B$ with a two-sided inverse up to homotopy. Several equivalent definitions exist (quasi-inverse, half-adjoint, bi-invertible); the book discusses why the naive "quasi-inverse" definition is subtly wrong.
 
 ```lean
--- Lean uses Equiv for equivalences
-#check @Equiv    -- Equiv α β  written  α ≃ β
--- An Equiv packages: a function, an inverse, and proofs they compose to id
+-- Define equivalence ourselves (no Mathlib needed)
+structure MyEquiv (α β : Sort u) where
+  toFun : α → β
+  invFun : β → α
+  left_inv : ∀ a, invFun (toFun a) = a
+  right_inv : ∀ b, toFun (invFun b) = b
+
+-- Example: Bool ≃ Bool via negation
+def boolNotEquiv : MyEquiv Bool Bool where
+  toFun := not
+  invFun := not
+  left_inv := fun b => by cases b <;> rfl
+  right_inv := fun b => by cases b <;> rfl
+
+-- The identity equivalence always exists
+def boolIdEquiv : MyEquiv Bool Bool where
+  toFun := id;  invFun := id
+  left_inv := fun _ => rfl
+  right_inv := fun _ => rfl
+
+-- So Bool ≃ Bool has (at least) two elements!
+-- This is key for univalence later.
 ```
 
 ---
@@ -289,14 +327,27 @@ Two types are *equal* (in the universe) if and only if they are *equivalent* (as
 3. **Topological meaning.** Paths in the universe correspond to equivalences. The universe $\mathsf{Type}$ is not a discrete space — it has non-trivial topology!
 
 ```lean
--- In Lean (Mathlib), univalence is available:
--- Equiv.toEq : α ≃ β → α = β  (in a universe)
--- But Lean's kernel doesn't natively have univalence;
--- it uses propositional extensionality + quotients instead.
+-- The canonical map: idtoeqv : (A = B) → (A ≃ B)
+-- Defined by transport: if p : A = B, then transport p is an equivalence.
+-- Univalence says idtoeqv is ITSELF an equivalence:
+-- (A = B) ≃ (A ≃ B)
 
--- The key idea: Bool ≃ Bool has TWO equivalences
--- (id and not), so Bool =_Type Bool has TWO paths!
--- The universe is NOT a set — it has higher structure.
+-- Forward direction (always available, no axiom needed):
+def idtoeqv (p : α = β) : MyEquiv α β where
+  toFun := p ▸ id
+  invFun := p.symm ▸ id
+  left_inv := fun a => by cases p; rfl
+  right_inv := fun b => by cases p; rfl
+
+-- Bool ≃ Bool concretely has TWO elements:
+-- boolIdEquiv (identity) and boolNotEquiv (negation)
+-- They are genuinely different:
+example : boolIdEquiv.toFun true = true := rfl
+example : boolNotEquiv.toFun true = false := rfl
+
+-- By univalence, each gives a DIFFERENT path Bool = Bool.
+-- So (Bool = Bool) in the universe has two distinct elements.
+-- The universe Type is NOT a set — it has non-trivial loops!
 ```
 
 **Why "Bool = Bool" has two proofs:**

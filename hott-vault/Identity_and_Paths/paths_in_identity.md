@@ -5,10 +5,10 @@ chapter: 2
 section: 11
 tags: [identity-type, paths-of-paths, transport, ap]
 references:
-  - "[[../02_Paths/00_path]]"
-  - "[[../02_Paths/01_ap]]"
-  - "[[../02_Paths/02_transport]]"
-  - "[[../04_Transport_in_Type_Formers/01_product]]"
+  - "[[path_operations]]"
+  - "[[ap]]"
+  - "[[transport]]"
+  - "[[paths_in_products]]"
 ---
 
 # Identity Type / 恒等类型的路径
@@ -81,11 +81,23 @@ $$(p_*(q) = r) \simeq (q \cdot p = p \cdot r)$$
 
 ## 相关概念 / Related Concepts
 
-- [[../02_Paths/00_path|Path Operations / 路径操作]]
-- [[../04_Transport_in_Type_Formers/01_product|Product Types / 积类型]]
+- [[path_operations|Path Operations / 路径操作]]
+- [[paths_in_products|Product Types / 积类型]]
 
 ---
 
 ## 参考文献 / References
 
 - HoTT Book, Section 2.11: Identity type
+
+---
+
+## Lean 4
+
+```lean
+-- Paths in identity types = higher paths (2-paths)
+-- If p q : x = y, then (p = q) is the type of 2-paths / homotopies
+variable (p q : x = y)
+#check (p = q)   -- Prop (in Lean's Prop universe, this collapses)
+-- In HoTT proper, this would be a non-trivial type
+```
