@@ -34,76 +34,67 @@ Students should be comfortable with:
 
 > §2.1 Types are higher groupoids
 
-### 1.1 A physical analogy: walking in a room (10 min)
+### 1.1 Three levels of equality — a concrete example (15 min)
 
-Before any formalism, let's build intuition with a physical picture.
+Before any formalism, let's see the idea through concrete examples.
 
-**Imagine a room.** There are two people, Alice (at point $A$) and Bob (at point $B$).
+**Level 0: values.** Consider the natural numbers. $2$ and $3$ are values.
 
-**1-paths = ways to walk.** A "path from $A$ to $B$" is a specific route Alice can walk to reach Bob. There might be many different routes — around the left side of a table, or around the right.
+**Level 1: equalities between values.** $2 + 1 = 3$ is a statement — more precisely, it's a **type** in type theory, and a proof of it is an **element** of that type. We call such elements **paths**. Here, `rfl` is a path because $2 + 1$ computes to $3$ by definition.
 
-```
-    A ───route p───→ B
-    A ───route q───→ B
-```
+But what about $2 + 0 = 2$? This is also true, but for a *different reason*. Lean's addition is defined by recursion on the **first** argument: $0 + n :\equiv n$, $\mathsf{succ}(m) + n :\equiv \mathsf{succ}(m + n)$. So $0 + 2$ directly reduces to $2$, but $2 + 0$ does **not** directly reduce — you need to apply a lemma (which itself requires induction). The two proofs take **different routes** to the same conclusion.
 
-**When are two routes "the same"?** If you can continuously deform one into the other without hitting an obstacle. Walking slightly to the left or slightly to the right of the same route — those are "the same." But if there's a **pillar** in the middle, walking left around it and walking right around it are **genuinely different** routes — you can't morph one into the other without passing through the pillar.
-
-**2-paths = deformations between routes.** A "2-path from $p$ to $q$" is a continuous deformation of route $p$ into route $q$. If $p$ goes left of the pillar and $q$ goes right, no such deformation exists. If $p$ and $q$ both go left but take slightly different curves, a deformation does exist.
-
-```
-    A ═══════════→ B
-    ↑  deformation  ↑
-    A ═══════════→ B
+```lean
+-- Two paths to "the answer is 2", via different routes:
+example : 0 + 2 = 2 := rfl               -- by definition (0 + n reduces to n)
+-- example : 2 + 0 = 2 := rfl            -- ✗ FAILS! 2 + 0 doesn't reduce directly
+example : 2 + 0 = 2 := Nat.add_zero 2    -- needs a lemma (proved by induction)
 ```
 
-**3-paths = deformations between deformations.** If there are two different ways to deform route $p$ into route $q$, we can ask whether those two deformations are themselves "the same." An answer to that question is a 3-path.
+**Level 2: equalities between equalities.** Now consider two functions $f, g : \mathbb{N} \to \mathbb{N}$. Suppose both satisfy $f(n) = n$ and $g(n) = n$ for all $n$. Are the *proofs* that $f = \mathsf{id}$ and $g = \mathsf{id}$ "the same proof"?
 
-**This goes on forever** — in principle. For most rooms (3D spaces), 3-paths and above are all trivial. But in higher-dimensional spaces, or in type theory, they can be non-trivial.
+In ordinary math you'd say "who cares — they're both true." But in HoTT, the **proof itself matters**. Two different proofs of the same equation are two different **2-paths**. A 2-path is an element of the type $p = q$ where $p, q : f = g$.
 
-**Three operations on routes:**
-1. **Reverse**: walk the route backwards. ($p^{-1}$)
-2. **Compose**: walk route $p$ then route $q$. ($p \cdot q$)
-3. **Stand still**: don't move. ($\mathsf{rfl}$)
+```lean
+-- Two functions that both equal id, but proved differently:
+def f : Nat → Nat := fun n => n + 0
+def g : Nat → Nat := fun n => 0 + n
 
-These satisfy "group-like" laws: $p \cdot p^{-1} \approx \mathsf{rfl}$, $p \cdot \mathsf{rfl} \approx p$, $(p \cdot q) \cdot r \approx p \cdot (q \cdot r)$. But only **approximately** — the $\approx$ means "there exists a 2-path (deformation) between them," not that they are identical routes.
+-- f = id and g = id, but the PROOFS are different
+-- (because f and g are defined differently)
+example : f = id := funext (fun n => Nat.add_zero n)
+example : g = id := funext (fun n => Nat.zero_add n)
+```
 
-**This structure — points, paths, deformations, deformations of deformations, ... with composition, inverse, and identity at every level — is called an ∞-groupoid.** "Groupoid" because every arrow has an inverse (you can always walk backwards). "∞" because the structure exists at every level, all the way up.
+**Level 3: equalities between equalities between equalities.** You can keep going. If $\alpha$ and $\beta$ are two different 2-paths (two different proofs that $p = q$), you can ask whether $\alpha = \beta$. That's a 3-path.
 
-### 1.2 Types are ∞-groupoids (10 min)
+**The key insight: this hierarchy comes for free.** The identity type $a = b$ is a type, so we can form $(p = q)$ for $p, q : a = b$, and then $(α = β)$ for $α, β : p = q$, and so on — just by iterating the identity type. No extra machinery needed.
 
-The amazing discovery of HoTT:
+### 1.2 From numbers to types: where it gets interesting (5 min)
 
-> **Every type in type theory automatically has this structure.**
+For $\mathbb{N}$, this hierarchy is **boring** above level 1: any two proofs of $m = n$ are themselves equal (there's essentially only one way to prove an equation of natural numbers). In HoTT language, $\mathbb{N}$ is a **set** — its identity types have no interesting higher structure.
 
-| Physical picture | Type theory |
-|---|---|
-| Room (space) | Type $A$ |
-| Points in the room | Elements $x, y : A$ |
-| Routes from $A$ to $B$ | Paths $p : x =_A y$ |
-| Deformations between routes | 2-paths $\alpha : p =_{(x=y)} q$ |
-| Deformations of deformations | 3-paths $\beta : \alpha = \alpha'$ |
-| Stand still at $A$ | $\mathsf{rfl}_x : x = x$ |
-| Walk backwards | $p^{-1} : y = x$ (symmetry) |
-| Walk $p$ then $q$ | $p \cdot q : x = z$ (transitivity) |
+But for the type **Bool**, something surprising happens (we'll see this in Part 3):
+
+- $\mathsf{Bool} = \mathsf{Bool}$ in the universe `Type` has **two** genuinely different elements:
+  - The identity equivalence $\mathsf{id} : \mathsf{Bool} \simeq \mathsf{Bool}$
+  - The negation equivalence $\mathsf{not} : \mathsf{Bool} \simeq \mathsf{Bool}$
+- These are **two different paths** — they cannot be identified, because `id` and `not` are genuinely different functions.
+
+So `Type` is **not** a set. It has non-trivial 1-paths (type equivalences). And then the identity type *between* those paths might itself have structure, and so on.
+
+**Terminology:** This layered structure — values, paths, 2-paths, 3-paths, ... with operations (composition, inverse, identity) at every level — is called an **∞-groupoid**. "Groupoid" because every path has an inverse (symmetry of equality). "∞" because the structure extends to all levels.
 
 > "The central new idea in homotopy type theory is that types can be regarded as spaces. We will frequently refer to an element $p : x =_A y$ as a **path** from $x$ to $y$." — HoTT Book §2.0
 
-For **simple types** like `Nat`, the identity type is boring: the only path from $n$ to $n$ is `rfl`, and there are no non-trivial 2-paths. (This is like a room with no obstacles — every route can be deformed into every other.)
-
-But for **complex types** like the universe `Type` itself, the identity type has rich structure. (This is like a room full of pillars — routes can go around them in genuinely different ways.) We will see this concretely when we discuss univalence in Part 3.
-
 ```lean
--- In Lean:
 variable (A : Type) (x y z : A)
 
--- rfl = "stand still"
-#check @rfl A x    -- x = x
-
--- A path is a first-class object — we can ask questions about it
+-- A path is a first-class object
 variable (p : x = y) (q : y = z)
--- p.symm : y = x       (reverse)
--- p.trans q : x = z     (compose)
+-- p.symm : y = x       (reverse the path)
+-- p.trans q : x = z     (compose two paths)
+-- rfl : x = x           (the trivial path — stay put)
 ```
 
 ### 1.3 Path operations, derived from J (10 min)
