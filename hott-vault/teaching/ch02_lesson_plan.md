@@ -34,188 +34,163 @@ Students should be comfortable with:
 
 > §2.1 Types are higher groupoids
 
-### 1.1 The identity type, revisited (15 min)
+### 1.1 A physical analogy: walking in a room (10 min)
 
-In Chapter 1, we used `rfl` and moved on. Now we look deeper.
+Before any formalism, let's build intuition with a physical picture.
 
-**Key shift in perspective**: an element $p : a =_A b$ is not just "evidence that $a$ equals $b$." It is a **path** from $a$ to $b$ in the space $A$.
+**Imagine a room.** There are two people, Alice (at point $A$) and Bob (at point $B$).
 
-> "The central new idea in homotopy type theory is that types can be regarded as spaces in homotopy theory. We will frequently refer to an element $p : x =_A y$ as a **path** from $x$ to $y$." — HoTT Book §2.0
+**1-paths = ways to walk.** A "path from $A$ to $B$" is a specific route Alice can walk to reach Bob. There might be many different routes — around the left side of a table, or around the right.
+
+```
+    A ───route p───→ B
+    A ───route q───→ B
+```
+
+**When are two routes "the same"?** If you can continuously deform one into the other without hitting an obstacle. Walking slightly to the left or slightly to the right of the same route — those are "the same." But if there's a **pillar** in the middle, walking left around it and walking right around it are **genuinely different** routes — you can't morph one into the other without passing through the pillar.
+
+**2-paths = deformations between routes.** A "2-path from $p$ to $q$" is a continuous deformation of route $p$ into route $q$. If $p$ goes left of the pillar and $q$ goes right, no such deformation exists. If $p$ and $q$ both go left but take slightly different curves, a deformation does exist.
+
+```
+    A ═══════════→ B
+    ↑  deformation  ↑
+    A ═══════════→ B
+```
+
+**3-paths = deformations between deformations.** If there are two different ways to deform route $p$ into route $q$, we can ask whether those two deformations are themselves "the same." An answer to that question is a 3-path.
+
+**This goes on forever** — in principle. For most rooms (3D spaces), 3-paths and above are all trivial. But in higher-dimensional spaces, or in type theory, they can be non-trivial.
+
+**Three operations on routes:**
+1. **Reverse**: walk the route backwards. ($p^{-1}$)
+2. **Compose**: walk route $p$ then route $q$. ($p \cdot q$)
+3. **Stand still**: don't move. ($\mathsf{rfl}$)
+
+These satisfy "group-like" laws: $p \cdot p^{-1} \approx \mathsf{rfl}$, $p \cdot \mathsf{rfl} \approx p$, $(p \cdot q) \cdot r \approx p \cdot (q \cdot r)$. But only **approximately** — the $\approx$ means "there exists a 2-path (deformation) between them," not that they are identical routes.
+
+**This structure — points, paths, deformations, deformations of deformations, ... with composition, inverse, and identity at every level — is called an ∞-groupoid.** "Groupoid" because every arrow has an inverse (you can always walk backwards). "∞" because the structure exists at every level, all the way up.
+
+### 1.2 Types are ∞-groupoids (10 min)
+
+The amazing discovery of HoTT:
+
+> **Every type in type theory automatically has this structure.**
+
+| Physical picture | Type theory |
+|---|---|
+| Room (space) | Type $A$ |
+| Points in the room | Elements $x, y : A$ |
+| Routes from $A$ to $B$ | Paths $p : x =_A y$ |
+| Deformations between routes | 2-paths $\alpha : p =_{(x=y)} q$ |
+| Deformations of deformations | 3-paths $\beta : \alpha = \alpha'$ |
+| Stand still at $A$ | $\mathsf{rfl}_x : x = x$ |
+| Walk backwards | $p^{-1} : y = x$ (symmetry) |
+| Walk $p$ then $q$ | $p \cdot q : x = z$ (transitivity) |
+
+> "The central new idea in homotopy type theory is that types can be regarded as spaces. We will frequently refer to an element $p : x =_A y$ as a **path** from $x$ to $y$." — HoTT Book §2.0
+
+For **simple types** like `Nat`, the identity type is boring: the only path from $n$ to $n$ is `rfl`, and there are no non-trivial 2-paths. (This is like a room with no obstacles — every route can be deformed into every other.)
+
+But for **complex types** like the universe `Type` itself, the identity type has rich structure. (This is like a room full of pillars — routes can go around them in genuinely different ways.) We will see this concretely when we discuss univalence in Part 3.
 
 ```lean
--- The identity type: a = b is a type, and its elements are paths
+-- In Lean:
 variable (A : Type) (x y z : A)
 
--- rfl is the trivial path: x → x (the "stay still" path)
+-- rfl = "stand still"
 #check @rfl A x    -- x = x
 
--- A path p : x = y is a FIRST-CLASS OBJECT
--- We can ask further questions about paths themselves
+-- A path is a first-class object — we can ask questions about it
 variable (p : x = y) (q : y = z)
+-- p.symm : y = x       (reverse)
+-- p.trans q : x = z     (compose)
 ```
 
-**What can we do with paths?** Three operations, all derived from the induction principle:
+### 1.3 Path operations, derived from J (10 min)
 
-### 1.2 Path inverse (symmetry) (10 min)
+All three operations come from the **path induction principle (J rule)**:
 
-If $p : x = y$, then $p^{-1} : y = x$. Paths can be reversed.
+> To define/prove something for all paths $p : x = y$, it suffices to handle the single case $p \equiv \mathsf{rfl} : x = x$.
 
-> "For every type $A$ and every $x, y : A$ there is a function $(x = y) \to (y = x)$, denoted $p \mapsto p^{-1}$, such that $\mathsf{refl}_x^{-1} \equiv \mathsf{refl}_x$." — HoTT Book, Lemma 2.1.1
+**Inverse** (walk backwards):
 
 ```lean
--- Symmetry: if p : x = y then p.symm : y = x
-#check @Eq.symm    -- {a b : α} → a = b → b = a
-
--- How is this defined? By path induction!
--- To define f(p) for all p : x = y,
--- it suffices to define f(rfl) when x ≡ y.
--- When p is rfl : x = x, we need y = x, which is also rfl : x = x. ✓
-
--- Concrete example
-example (h : 1 = 1) : 1 = 1 := h.symm
+-- To define p.symm for all p : x = y, handle p = rfl:
+-- when p = rfl : x = x, we need x = x → just give rfl. ✓
+#check @Eq.symm    -- a = b → b = a
+example (p : x = y) : y = x := p.symm
 ```
 
-**Proof by path induction** (the fundamental technique of Ch2):
-- Want to define something for all $p : x = y$
-- Suffices to handle the case $p \equiv \mathsf{rfl} : x = x$
-- Everything else follows automatically from the induction principle
-
-### 1.3 Path concatenation (transitivity) (10 min)
-
-If $p : x = y$ and $q : y = z$, then $p \cdot q : x = z$. Paths can be joined.
-
-> "For every type $A$ and every $x, y, z : A$ there is a function $(x = y) \to (y = z) \to (x = z)$, denoted $p \cdot q$, such that $\mathsf{refl}_x \cdot \mathsf{refl}_x \equiv \mathsf{refl}_x$." — HoTT Book, Lemma 2.1.2
+**Concatenation** (walk $p$ then $q$):
 
 ```lean
--- Transitivity: Eq.trans or the ▸ notation
-#check @Eq.trans    -- {a b c : α} → a = b → b = c → a = c
-
--- Defined by double path induction:
--- suffices to handle p = rfl, q = rfl
--- then rfl · rfl := rfl ✓
-
--- Lean's `calc` blocks make this readable
+-- To define p.trans q for all p : x = y, handle p = rfl:
+-- when p = rfl : x = x, we need (x = z) given q : x = z → just give q. ✓
+#check @Eq.trans   -- a = b → b = c → a = c
 example (p : x = y) (q : y = z) : x = z := p.trans q
-
--- Or using calc:
-example (p : x = y) (q : y = z) : x = z := calc
-  x = y := p
-  _ = z := q
 ```
 
-### 1.4 The groupoid laws (15 min)
+### 1.4 The groupoid laws — and why they produce 2-paths (10 min)
 
-These three operations satisfy the groupoid laws — **but only up to higher paths!**
+These operations satisfy group-like laws:
 
 ```lean
--- These are all PROPOSITIONAL equalities, not definitional:
--- 1. Left unit: rfl · p = p
--- 2. Right unit: p · rfl = p
--- 3. Left inverse: p⁻¹ · p = rfl
--- 4. Right inverse: p · p⁻¹ = rfl
--- 5. Associativity: p · (q · r) = (p · q) · r
-
--- Example: left unit (in Lean, this is rfl because of how trans is defined)
+-- All proved by: cases on the paths (J rule), then rfl.
 example (p : x = y) : (rfl).trans p = p := rfl
-
--- Associativity
+theorem right_unit (p : x = y) : p.trans rfl = p := by cases p; rfl
+theorem trans_inv  (p : x = y) : p.trans p.symm = rfl := by cases p; rfl
+theorem inv_inv    (p : x = y) : p.symm.symm = p := by cases p; rfl
 theorem path_assoc (p : x = y) (q : y = z) (r : z = w) :
     (p.trans q).trans r = p.trans (q.trans r) := by
   cases p; cases q; cases r; rfl
 ```
 
-**The crucial point**: these equalities are *themselves* paths — between paths! So we have:
-- **0-paths**: points $x, y : A$
-- **1-paths**: paths $p, q : x = y$
-- **2-paths**: paths between paths $\alpha : p = q$  (homotopies!)
-- **3-paths**: ... and so on, infinitely
+**Key observation**: `right_unit p` has type `p.trans rfl = p`. This type is an identity type between two paths — it's the type of **2-paths** from `p.trans rfl` to `p`. And `right_unit p` is one particular 2-path (one particular deformation).
 
-This infinite tower of paths is what makes a type into an **∞-groupoid**.
+Similarly, `path_assoc p q r` is a 2-path. And any equation between `right_unit` and `path_assoc` would be a **3-path**. This continues forever.
 
-### 1.5 Why all structure comes from J (15 min)
+### 1.5 All structure from J — with examples (10 min)
 
 > "All of the higher groupoid structure arises automatically from the induction principle for identity types." — HoTT Book §2.0
 
-This is one of the deepest observations in HoTT. Let's unpack it.
+**Why does J alone generate infinitely many levels of structure?**
 
-**The setup.** The identity type has just ONE constructor (`rfl`) and ONE elimination rule (path induction / J). Yet from this alone, we derived inverse, concatenation, and all the groupoid laws above. The mechanism is always the same:
+The trick is always the same. At every level:
+1. We want to define/prove something about paths
+2. J reduces it to the `rfl` case
+3. In the `rfl` case, everything is trivially equal
+4. `rfl` finishes it
 
-> To define/prove something for all paths $p : x = y$, it suffices to handle the case $p \equiv \mathsf{rfl}$. In that case everything collapses and becomes trivial.
+**Layer 1 — paths.** We defined inverse and concatenation. (J → handle rfl → done.)
 
-**Layer 1 — operations on paths.** We already saw:
-- Inverse: handle `rfl` → need `x = x` → give `rfl`. ✓
-- Concatenation: handle `rfl` → need `x = z` given `q : x = z` → give `q`. ✓
+**Layer 2 — 2-paths.** We proved groupoid laws. Each proof, like `right_unit p : p.trans rfl = p`, is a 2-path. (J → handle rfl → both sides collapse → done.)
 
-**Layer 2 — 2-paths (equalities between paths).** The groupoid laws are *paths between paths*. For example, associativity:
-
-$$(p \cdot q) \cdot r \;=\; p \cdot (q \cdot r)$$
-
-This is a 2-path — an element of the type $((p \cdot q) \cdot r) = (p \cdot (q \cdot r))$. We proved it by applying J three times (cases on $p$, $q$, $r$), reducing everything to `rfl`.
-
-**Concrete 2-path example.** A 2-path is an element of $(p = q)$ where $p, q$ are 1-paths:
+**Layer 3 — 3-paths.** Any two 2-paths between the same endpoints are themselves equal:
 
 ```lean
--- 2-path: right_unit says  p · rfl = p
--- This is a PATH BETWEEN PATHS.
-theorem right_unit (p : x = y) : p.trans rfl = p := by cases p; rfl
-
--- How? J says: handle p := rfl.
--- Then rfl.trans rfl and rfl are definitionally equal → rfl finishes it.
-
--- right_unit p is an ELEMENT of the type (p.trans rfl = p) — a 2-path!
-#check @right_unit  -- (p : x = y) → p.trans rfl = p
-
--- More 2-paths, all by the same trick:
-theorem left_unit  (p : x = y) : (rfl).trans p = p := rfl
-theorem inv_inv    (p : x = y) : p.symm.symm = p  := by cases p; rfl
-```
-
-**Concrete 3-path example.** A 3-path is an equality between 2-paths:
-
-```lean
--- Here are two 2-paths from p.symm.symm to p.
--- They are EQUAL — and that equality is a 3-path.
+-- A 3-path: two proofs that p.symm.symm = p are equal
 theorem three_path (p : x = y) :
     let proof1 : p.symm.symm = p := by cases p; rfl
     let proof2 : p.symm.symm = p := by cases p; rfl
     proof1 = proof2 := by cases p; rfl
--- After cases: both proofs become rfl, so they're equal. ✓
+-- Same trick: cases on p → both proofs become rfl → they're equal.
 ```
 
-**Layer 3 — Mac Lane pentagon.** With four paths, there are five parenthesizations of $p \cdot q \cdot r \cdot s$:
+**Layer 4, 5, ...** — the same trick works forever. At each level, `cases` reduces everything to `rfl`, and `rfl` finishes it.
 
-```
-          p · (q · (r · s))
-           ↙              ↘
-  (p · q) · (r · s)      p · ((q · r) · s)
-           ↘              ↙
-         ((p · q) · r) · s
-                ↕
-        (p · (q · r)) · s
-```
+| Layer | Lives here | Example | Proof method |
+|---|---|---|---|
+| 0 | Points $x : A$ | $0 : \mathbb{N}$ | — |
+| 1 | Paths $p : x = y$ | inverse, concatenation | J (cases; rfl) |
+| 2 | 2-paths $\alpha : p = q$ | `right_unit`, `path_assoc` | J (cases; rfl) |
+| 3 | 3-paths $\beta : \alpha = \alpha'$ | `three_path` above | J (cases; rfl) |
+| $n$ | $n$-paths | coherence of coherences | J (cases; rfl) |
 
-Each arrow is a 2-path (associativity). The two routes around the pentagon give two different composite 2-paths. Their equality is a **3-path** — and it too is proved by `cases` + `rfl`:
+**Why is this remarkable?**
 
-```lean
--- A complex equation between 2-paths (a 3-path), proved the same way:
-example (p : x = y) (q : y = z) :
-    (path_assoc p rfl q).trans (congrArg (p.trans ·) (left_unit q))
-    = right_unit p ▸ rfl := by
-  cases p; cases q; rfl
--- cases on all paths → everything is rfl → done.
-```
+In classical mathematics, defining an ∞-groupoid requires specifying infinitely many operations and coherence conditions by hand. This is so complex that several competing definitions exist, and mathematicians debated for decades which one is "correct."
 
-**The pattern.** At every layer, the proof is the same: apply J (i.e., `cases`) to reduce all paths to `rfl`, then both sides become definitionally equal, so `rfl` finishes it.
-
-| Layer | What lives there                   | Example                          | How to prove       |
-| ----- | ---------------------------------- | -------------------------------- | ------------------ |
-| 0     | Points $x : A$                     | $0 : \mathbb{N}$                 | —                  |
-| 1     | Paths $p : x = y$                  | `rfl : 0 = 0`                    | constructor        |
-| 2     | 2-paths $\alpha : p = q$           | `right_unit p : p.trans rfl = p` | J (cases p; rfl)   |
-| 3     | 3-paths $\beta : \alpha = \alpha'$ | pentagon coherence               | J (cases all; rfl) |
-| $n$   | $n$-paths                          | coherence of coherences...       | J (cases all; rfl) |
-
-**Why this is remarkable.** In classical ∞-groupoid theory, you must *manually specify* composition, associativity, the pentagon, and infinitely many higher coherences. This is extraordinarily complex data. In type theory, you specify *nothing* — just `rfl` and J. **All infinitely many layers of structure emerge automatically.** This is the sense in which types are *synthetic* ∞-groupoids.
+In type theory, you specify **nothing** — just one constructor (`rfl`) and one eliminator (J). The entire infinite tower of structure emerges automatically. This is what makes homotopy type theory a **synthetic** theory of spaces: the structure isn't built from coordinates and formulas, it's built into the fabric of the type system itself.
 
 ---
 
