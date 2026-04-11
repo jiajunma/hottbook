@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "book/ch03_sets_and_logic.md",
+                "file": "teaching/ch03_lesson_plan.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ch03_sets_and_logic"
+              "title": "ch03_lesson_plan"
             }
           }
         ]
@@ -185,10 +185,13 @@
   },
   "active": "0b2f26ebb992ee59",
   "lastOpenFiles": [
-    "book/ch02_homotopy_type_theory.md",
-    "book/ch03_sets_and_logic.md",
-    "book/ch01_type_theory.md",
     "teaching/ch02_lesson_plan.md",
+    "Logic/propositions_as_types_problem.md",
+    "teaching/ch03_lesson_plan.md",
+    "book/ch03_sets_and_logic.md",
+    "Truncation_Levels/sets.md",
+    "book/ch01_type_theory.md",
+    "book/ch02_homotopy_type_theory.md",
     "teaching/ch01_lesson_plan.md",
     "Identity_and_Paths/paths_in_identity.md.tmp.21562.1775833516206",
     "teaching/00_roadmap.md",
@@ -213,8 +216,6 @@
     "book/ch04_equivalences.md",
     "Set_Theory/cardinal_numbers.md",
     "Set_Theory/classical_well_orderings.md",
-    "Set_Theory/ordinal_numbers.md",
-    "Higher_Inductive_Types/00_MOC.md",
     "book",
     "Real_Numbers",
     "Set_Theory",

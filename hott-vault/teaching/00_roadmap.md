@@ -72,10 +72,23 @@ Zero setup — browser only. Lean **is** dependent type theory, not an analogy f
 | **Part 3** (50 min) | Paths in type formers, funext, univalence | §2.5–§2.10 |
 | Summary (5 min) | Big picture | |
 
+### Lecture 3: Sets and Logic (Ch3, 3h)
+
+**Lesson plan**: [[teaching/ch03_lesson_plan]]
+
+| Block | Content | Covers |
+|---|---|---|
+| **Part 1** (55 min) | n-type hierarchy: sets, mere props, contractible | §3.1, §3.3, §3.11 |
+| Break (10 min) | | |
+| **Part 2** (50 min) | LEM problem, truncation, classical logic | §3.2, §3.4, §3.6, §3.7 |
+| Break (10 min) | | |
+| **Part 3** (45 min) | Axiom of choice, unique choice, synthesis | §3.8–§3.10 |
+| Summary (5 min) | Big picture | |
+
 ## Resources
 
-- **Lesson plans**: [[teaching/ch01_lesson_plan]], [[teaching/ch02_lesson_plan]]
+- **Lesson plans**: [[teaching/ch01_lesson_plan]], [[teaching/ch02_lesson_plan]], [[teaching/ch03_lesson_plan]]
 - **Symbol guide**: [[teaching/symbol_guide]]
-- **Concept notes**: [[Foundations/00_MOC]], [[Identity_and_Paths/00_MOC]]
-- **Book digests**: [[book/ch01_type_theory]], [[book/ch02_homotopy_type_theory]]
+- **Concept notes**: [[Foundations/00_MOC]], [[Identity_and_Paths/00_MOC]], [[Truncation_Levels/00_MOC]], [[Logic/00_MOC]]
+- **Book digests**: [[book/ch01_type_theory]], [[book/ch02_homotopy_type_theory]], [[book/ch03_sets_and_logic]]
 - **Biographies**: [[teaching/curry_howard_bios]]
