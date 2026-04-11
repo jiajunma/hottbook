@@ -185,6 +185,10 @@
   },
   "active": "0b2f26ebb992ee59",
   "lastOpenFiles": [
+    "research_notes/cubical_vs_hott.md",
+    "research_notes/univalence_axiom.md",
+    "research_notes/00_index.md",
+    "research_notes",
     "teaching/ch02_lesson_plan.md",
     "Logic/propositions_as_types_problem.md",
     "teaching/ch03_lesson_plan.md",
@@ -213,15 +217,11 @@
     "book/ch07_homotopy_n_types.md",
     "book/ch06_higher_inductive_types.md",
     "book/ch05_induction.md",
-    "book/ch04_equivalences.md",
-    "Set_Theory/cardinal_numbers.md",
-    "Set_Theory/classical_well_orderings.md",
     "book",
     "Real_Numbers",
     "Set_Theory",
     "Category_Theory",
     "Homotopy_Theory",
-    "Higher_Inductive_Types",
-    "Inductive_Types"
+    "Higher_Inductive_Types"
   ]
 }
