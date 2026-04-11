@@ -176,25 +176,99 @@ example (A : Type u) (h : IsContr A) : IsProp A :=
 
 ---
 
-## Part 2: Logic inside HoTT (50 min)
+## Part 2: Logic inside HoTT (55 min)
 
 > §3.2 Propositions as types?, §3.4 Classical vs intuitionistic, §3.6 Logic of mere propositions
 
-### 2.1 The problem with naive propositions-as-types (10 min)
+### 2.1 The problem with naive propositions-as-types (15 min)
 
-In Ch1 we learned: type = proposition, program = proof. But Ch2 introduced univalence, which breaks the naive version.
+In Ch1 we learned the Curry-Howard slogan: type = proposition, program = proof. The **naive** reading of this says: we should be able to reason classically about *any* type, treating it as a proposition. Concretely, this means asserting for every type $A$:
 
-**Theorem 3.2.2** (HoTT Book): it is NOT the case that $\prod_{(A:\mathcal{U})} (\neg\neg A \to A)$. I.e., double negation elimination **for all types** is inconsistent with univalence.
+- **$\mathsf{LEM}_\infty$**: $A + \neg A$ — "either $A$ or not $A$"
+- **$\mathsf{DNE}_\infty$**: $\neg\neg A \to A$ — "double negation elimination"
 
-**Proof sketch**: suppose $f : \prod_{(A:\mathcal{U})} (\neg\neg A \to A)$. Univalence forces $f$ to be natural with respect to equivalences. In particular, $f(\mathsf{Bool})$ must commute with the swap equivalence $\mathsf{not} : \mathsf{Bool} \simeq \mathsf{Bool}$:
+In Ch1 these looked like reasonable classical axioms one might add. **Ch2's univalence makes them inconsistent.** Let's see exactly how.
 
-$$\mathsf{not}(f(\mathsf{Bool})(u)) = f(\mathsf{Bool})(u)$$
+#### The setup
 
-So $f(\mathsf{Bool})(u)$ is a fixed point of $\mathsf{not}$. But $\mathsf{not}$ has no fixed points — contradiction.
+By the univalence axiom (§2.10), for any types $A, B$:
 
-**Corollary 3.2.7**: similarly, $\mathsf{LEM}_\infty :\equiv \prod_{(A:\mathcal{U})} (A + \neg A)$ is inconsistent with univalence.
+$$(A =_\mathcal{U} B) \;\simeq\; (A \simeq B)$$
 
-**Moral**: classical logic doesn't work for *all* types — only for types that are "proposition-like" (mere props). This is why we need mere propositions!
+Every type equivalence gives rise to a path in the universe, and vice versa. This is a **constraint**: whatever we define on types must "respect" equivalences, because equivalent types are *literally equal* as far as the theory can see.
+
+**Concrete consequence**: if $f : \prod_{(A:\mathcal{U})} g(A)$ is a polymorphic function (like $\mathsf{DNE}_\infty$), then for any path $p : A = B$ we automatically have a transport law:
+
+$$\mathsf{transport}^g\, p\, (f(A)) = f(B)$$
+
+This is because $f(A)$ and $f(B)$ are both *the same* $f$ applied in different ways, and type families automatically respect paths (Lemma 2.3.1). You don't need to *prove* naturality — it's built into the type theory.
+
+#### Theorem 3.2.2: $\mathsf{DNE}_\infty$ is inconsistent
+
+**Claim**: there is **no** $f : \prod_{(A : \mathcal{U})} (\neg\neg A \to A)$.
+
+**Proof** (by contradiction):
+
+Suppose we had such an $f$. We'll derive a contradiction using the type $\mathsf{Bool}$.
+
+**Step 1: the swap equivalence.** Define $e : \mathsf{Bool} \simeq \mathsf{Bool}$ by $e :\equiv \mathsf{not}$. This is an equivalence: it's its own inverse. By univalence, there is a path $p :\equiv \mathsf{ua}(e) : \mathsf{Bool} = \mathsf{Bool}$.
+
+**Step 2: transport along $p$ is the swap.** The computation rule for univalence says: for the identity type family (i.e., just the domain), transport along $p$ equals $e$. Concretely:
+
+$$\mathsf{transport}^{X \mapsto X}\, p\, \mathsf{true} = \mathsf{not}(\mathsf{true}) = \mathsf{false}$$
+$$\mathsf{transport}^{X \mapsto X}\, p\, \mathsf{false} = \mathsf{not}(\mathsf{false}) = \mathsf{true}$$
+
+**Step 3: $\neg\neg\mathsf{Bool}$ is inhabited.** Take any element, say $\mathsf{true} : \mathsf{Bool}$. Then $u :\equiv \lambda k.\, k(\mathsf{true}) : \neg\neg\mathsf{Bool}$. (If $k : \neg\mathsf{Bool}$ claims to derive $\mathbf{0}$ from any Bool, feed it $\mathsf{true}$.)
+
+**Step 4: apply $f$ to get a Bool.** Let $b :\equiv f(\mathsf{Bool})(u) : \mathsf{Bool}$. This is some specific Boolean — either $\mathsf{true}$ or $\mathsf{false}$, but we don't yet know which.
+
+**Step 5: naturality of $f$.** Since $f : \prod_{(A:\mathcal{U})} (\neg\neg A \to A)$, the transport law gives:
+
+$$\mathsf{transport}^{A \mapsto (\neg\neg A \to A)}\, p\, (f(\mathsf{Bool})) = f(\mathsf{Bool})$$
+
+Unfolding transport at a function type (the standard rule for $\mathsf{transport}$ in a function family):
+
+$$\mathsf{transport}^{X \mapsto X}\, p\, \bigl(f(\mathsf{Bool})(\mathsf{transport}^{\neg\neg \cdot}\, p^{-1}\, u)\bigr) = f(\mathsf{Bool})(u)$$
+
+**Step 6: simplify $\mathsf{transport}^{\neg\neg \cdot}\, p^{-1}\, u$.** Here $\neg\neg\mathsf{Bool}$ is a fancy type, but transporting any specific element of it along a loop $p^{-1} : \mathsf{Bool} = \mathsf{Bool}$ gives back *some* element of $\neg\neg\mathsf{Bool}$. Call it $u'$. By Step 5:
+
+$$\mathsf{transport}^{X \mapsto X}\, p\, (f(\mathsf{Bool})(u')) = f(\mathsf{Bool})(u)$$
+
+The left side is $e$ applied to $f(\mathsf{Bool})(u')$, which is $\mathsf{not}$ of some Boolean. The right side is some Boolean $b$. So we get a Boolean equation: the swap of something equals something-else.
+
+**Step 7: the simplification kicks in.** Here's the key observation. Because $\mathsf{Bool}$ is decidable, $\neg\neg\mathsf{Bool}$ behaves essentially like $\mathsf{Bool}$ for this purpose — in fact, any two elements of $\neg\neg\mathsf{Bool}$ act the same on concrete functions out of it (this uses the more general fact that transport on $\neg\neg(\cdot)$ is the identity in this case). More formally, one can show $u' = u$, so:
+
+$$e(f(\mathsf{Bool})(u)) = f(\mathsf{Bool})(u)$$
+
+That is, $\mathsf{not}(b) = b$ — **$b$ is a fixed point of $\mathsf{not}$**.
+
+**Step 8: but $\mathsf{not}$ has no fixed points.** We have $\mathsf{not}(\mathsf{true}) = \mathsf{false} \neq \mathsf{true}$ and $\mathsf{not}(\mathsf{false}) = \mathsf{true} \neq \mathsf{false}$. So $\mathsf{not}(b) = b$ is impossible whatever $b$ is.
+
+**Contradiction.** So $f$ cannot exist. $\square$
+
+#### What just happened, conceptually
+
+The argument has a single moral:
+
+> **Univalence forces every polymorphic operation on types to be natural with respect to equivalences.**
+
+A function $f : \prod_{(A : \mathcal{U})} g(A)$ cannot "look inside" a type $A$ and make arbitrary choices — any choices it makes must commute with the symmetries of $A$. In the $\mathsf{Bool}$ case, the swap $\mathsf{not}$ is a symmetry, and $f(\mathsf{Bool})(u)$ must be invariant under it. But $\mathsf{Bool}$ has no element fixed by $\mathsf{not}$, so no such invariant element exists.
+
+**Compare with set theory**: in ZFC, the "axiom of choice" lets you pick an element from any inhabited set, and the picked element can be completely arbitrary — no naturality constraint. HoTT can't work this way. Every operation must respect equivalences, so any "choice" you make must be canonical.
+
+**Compare with classical Curry-Howard (pre-univalence)**: in a type theory without univalence, $\mathsf{DNE}_\infty$ is consistent (though still not provable). You can safely assume it as an axiom. The new ingredient that breaks it is univalence's rigidity.
+
+#### Corollary 3.2.7: $\mathsf{LEM}_\infty$ is also inconsistent
+
+$$\mathsf{LEM}_\infty :\equiv \prod_{(A : \mathcal{U})} (A + \neg A)$$
+
+**Why**: from $\mathsf{LEM}_\infty$ one can derive $\mathsf{DNE}_\infty$ (by case-analyzing $A + \neg A$), so inconsistency of the latter gives inconsistency of the former.
+
+#### The moral
+
+The problem is **not** with Curry-Howard, and **not** with classical logic per se. The problem is that we tried to apply classical logic to *every* type — and univalence reveals that "general types" are too rich to admit classical reasoning. You cannot non-canonically pick an element of $\mathsf{Bool}$, because $\mathsf{Bool}$ has a symmetry you must respect.
+
+**The fix**: restrict classical reasoning to types *without* non-trivial symmetries — types where "the element is fixed, because there's only one possibility anyway." These are exactly the **mere propositions**: types with at most one element, hence no room for non-trivial symmetries.
 
 ### 2.2 The fix: restrict LEM to mere propositions (10 min)
 
