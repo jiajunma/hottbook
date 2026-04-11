@@ -648,19 +648,33 @@ $$A \times_C B :\equiv \sum_{a:A} \sum_{b:B} (f(a) = g(b))$$
 ## 全章总结 / Chapter Summary
 
 > **核心收获 / Key Takeaway:** 掌握 $\mathsf{transport}$ 和 $\mathsf{univalence}$ 是理解后续章节的关键。$\mathsf{Transport}$ 是在具体类型中做计算的核心工具；$\mathsf{univalence}$ 是 HoTT 区别于传统类型论的根本公理。Encode-decode 方法是刻画正类型路径空间的通用技术。
+>
+> Mastering $\mathsf{transport}$ and $\mathsf{univalence}$ is the key to understanding later chapters. $\mathsf{Transport}$ is the central tool for concrete computation in specific types; $\mathsf{univalence}$ is the fundamental axiom distinguishing HoTT from traditional type theory. The encode-decode method is the general technique for characterizing path spaces of positive types.
 
 **方法论清单 / Methodology Checklist:**
 
-1. **路径归纳 (Path Induction):** 证明关于路径的性质时，归约到 $\mathsf{refl}$ 的情况
-2. **Transport:** 沿路径在类型族的纤维之间移动元素
-3. **$\mathsf{ap}$:** 将基空间中的路径映到值域中的路径
-4. **$\mathsf{apd}$:** $\mathsf{ap}$ 的依赖版本，给出依赖路径
-5. **Encode-Decode:** 刻画正类型的路径空间的通用方法
-6. **Univalence:** 将类型等价转化为类型等式
-7. **Funext:** 将逐点同伦转化为函数等式
+1. **路径归纳 (Path Induction)** — 证明关于路径的性质时，归约到 $\mathsf{refl}$ 的情况
+   To prove properties about paths, reduce to the $\mathsf{refl}$ case.
+2. **Transport** — 沿路径在类型族的纤维之间移动元素
+   Move elements between fibers of a type family along a path.
+3. **$\mathsf{ap}$** — 将基空间中的路径映到值域中的路径
+   Map a path in the domain to a path in the codomain.
+4. **$\mathsf{apd}$** — $\mathsf{ap}$ 的依赖版本，给出依赖路径
+   The dependent version of $\mathsf{ap}$, producing dependent paths.
+5. **Encode-Decode** — 刻画正类型的路径空间的通用方法
+   The general method for characterizing path spaces of positive types.
+6. **Univalence** — 将类型等价转化为类型等式
+   Convert a type equivalence into a type equality.
+7. **Funext** — 将逐点同伦转化为函数等式
+   Convert a pointwise homotopy into a function equality.
 
 **后续章节预览 / Looking Ahead:**
+
 - **Chapter 3:** 集合与逻辑——哪些类型是"集合态的"（$n$-类型/截断水平）
+  Sets and logic — which types are "set-like" ($n$-types / truncation levels).
 - **Chapter 4:** 等价的精确定义和更多性质
+  Precise definitions of equivalence and further properties.
 - **Chapter 6:** 高阶归纳类型——路径空间可以人为指定
+  Higher inductive types — path spaces can be prescribed.
 - **Chapter 8:** 用 encode-decode 计算球面的同伦群
+  Computing homotopy groups of spheres via encode-decode.

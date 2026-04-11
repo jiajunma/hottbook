@@ -185,8 +185,9 @@
   },
   "active": "4c540acad195b094",
   "lastOpenFiles": [
-    "book/ch01_type_theory.md",
+    "book/ch03_sets_and_logic.md",
     "book/ch02_homotopy_type_theory.md",
+    "book/ch01_type_theory.md",
     "teaching/ch02_lesson_plan.md",
     "teaching/ch01_lesson_plan.md",
     "Identity_and_Paths/paths_in_identity.md.tmp.21562.1775833516206",
@@ -210,7 +211,6 @@
     "book/ch06_higher_inductive_types.md",
     "book/ch05_induction.md",
     "book/ch04_equivalences.md",
-    "book/ch03_sets_and_logic.md",
     "Set_Theory/cardinal_numbers.md",
     "Set_Theory/classical_well_orderings.md",
     "Set_Theory/ordinal_numbers.md",
