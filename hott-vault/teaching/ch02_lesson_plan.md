@@ -183,6 +183,47 @@ In classical mathematics, defining an ∞-groupoid requires specifying infinitel
 
 In type theory, you specify **nothing** — just one constructor (`rfl`) and one eliminator (J). The entire infinite tower of structure emerges automatically. This is what makes homotopy type theory a **synthetic** theory of spaces: the structure isn't built from coordinates and formulas, it's built into the fabric of the type system itself.
 
+### 1.6 Loop spaces, Eckmann-Hilton, and homotopy groups (5 min)
+
+**Loop space.** Given a pointed type $(A, a)$, the **loop space** is:
+
+$$\Omega(A, a) :\equiv (a =_A a)$$
+
+This is the type of all paths from $a$ back to itself — loops. It is itself a pointed type, with basepoint $\mathsf{rfl}_a$.
+
+Iterate: $\Omega^2(A, a) = \Omega(\Omega(A, a)) = (\mathsf{rfl}_a =_{a = a} \mathsf{rfl}_a)$ — loops between loops.
+
+```lean
+-- Loop space: the type of loops at a point
+def LoopSpace (A : Type) (a : A) := a = a
+-- Ω²: loops between loops (2-dimensional loops)
+def LoopSpace2 (A : Type) (a : A) := @rfl A a = @rfl A a
+```
+
+**Eckmann-Hilton (Theorem 2.1.6).** In $\Omega^2(A, a)$, composition is **commutative**:
+
+$$\alpha \cdot \beta = \beta \cdot \alpha \qquad \text{for all } \alpha, \beta : \Omega^2(A, a)$$
+
+**Important precision**: this $=$ is a **path** (propositional equality), not a definitional equality. The commutativity itself is an element of a type — a 3-path. So it too is a meaningful object that can be further investigated.
+
+The proof works by defining two different ways to compose 2-paths — **vertical** ($\alpha \cdot_v \beta$: do $\alpha$ then $\beta$) and **horizontal** ($\alpha \star_h \beta$: do $\alpha$ and $\beta$ side by side via whiskering) — then showing:
+
+$$\alpha \cdot_v \beta \;=\; \alpha \star_h \beta \;=\; \beta \cdot_v \alpha$$
+
+Each $=$ is a path. Composing them gives commutativity. Every step is in the homotopy sense.
+
+**Homotopy groups.** The $n$-th homotopy group is the loop space, truncated to a set:
+
+$$\pi_n(A, a) :\equiv \| \Omega^n(A, a) \|_0$$
+
+$\Omega^n$ is a full type (with all higher structure). $\pi_n$ forgets the higher structure and keeps only "how many essentially different $n$-loops are there." By Eckmann-Hilton, $\pi_n$ is an **abelian group** for $n \geq 2$.
+
+| | $\Omega^n(A, a)$ | $\pi_n(A, a) = \|\Omega^n(A,a)\|_0$ |
+|---|---|---|
+| What | A type (full ∞-groupoid structure) | A set (just equivalence classes) |
+| Elements | Actual $n$-loops | $n$-loops **up to homotopy** |
+| Structure | Infinitely rich | Group ($n \geq 1$), abelian ($n \geq 2$) |
+
 ---
 
 *— 10 min break —*

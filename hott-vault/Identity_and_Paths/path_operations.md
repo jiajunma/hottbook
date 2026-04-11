@@ -103,7 +103,28 @@ $$\Omega^0(A, a) :\equiv (A, a), \quad \Omega^{n+1}(A, a) :\equiv \Omega^n(\Omeg
 
 $$\alpha \cdot \beta = \beta \cdot \alpha, \quad \text{对所有 } \alpha, \beta : \Omega^2(A)$$
 
-**证明关键**：定义**水平复合** (horizontal composition) $\alpha \star \beta$ 和 whiskering 操作 $\alpha \rhd r$ 与 $q \lhd \beta$，然后证明两种水平复合方式一致，从而得出交换性。
+**重要**：这里的 $=$ 是**同伦意义下的等式**——即一条路径（在 $\Omega^2$ 中，这是一条 3-path），**不是**判断等式 (definitional equality)。交换性本身是一个类型的居民，它可以被进一步操作。
+
+**证明结构**：
+
+1. 定义 **vertical composition** $\alpha \cdot_v \beta$：先 $\alpha$ 后 $\beta$（纵向拼接 2-path）
+2. 定义 **horizontal composition** $\alpha \star_h \beta$：通过 whiskering 左右拼接
+   - Right whiskering: $\alpha \rhd r$ — 在 $\alpha$ 右侧附加路径 $r$
+   - Left whiskering: $q \lhd \beta$ — 在 $\beta$ 左侧附加路径 $q$
+   - $\alpha \star_h \beta :\equiv (\alpha \rhd \mathsf{rfl}) \cdot_v (\mathsf{rfl} \lhd \beta)$
+3. 证明 $\alpha \cdot_v \beta = \alpha \star_h \beta$（一条路径）
+4. 证明 $\alpha \star_h \beta = \beta \cdot_v \alpha$（另一条路径）
+5. 拼接得到 $\alpha \cdot_v \beta = \beta \cdot_v \alpha$
+
+每一步都是构造一条**路径** (propositional equality)，整个论证都在同伦意义下进行。这意味着交换性的证明本身也是一个有意义的对象——可以进一步问不同的交换性证明之间是否相等 (4-path)，如此递推。
+
+### 与高阶同伦群的关系 / Relation to Higher Homotopy Groups
+
+Loop space 与 homotopy group 的关系：
+
+$$\pi_n(A, a) :\equiv \| \Omega^n(A, a) \|_0$$
+
+$\Omega^n(A,a)$ 是完整的类型（保留所有高阶结构），$\pi_n$ 是它的 set truncation（只保留"有多少种本质不同的 $n$-loop"）。Eckmann-Hilton 保证 $\pi_n$ 在 $n \geq 2$ 时自动成为**交换群 (abelian group)**。
 
 ---
 
