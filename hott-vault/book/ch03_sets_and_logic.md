@@ -38,13 +38,13 @@ This chapter answers: "How do we do ordinary mathematics in HoTT?" It introduces
 
 **Definition 3.1.1 (Set / 集合).** 类型 $A$ 是**集合 (set)** 如果对所有 $x, y : A$ 和所有 $p, q : x = y$，有 $p = q$。
 
-$$\mathsf{isSet}(A) \defeq \prod_{(x,y:A)} \prod_{(p,q:x=y)} (p = q)$$
+$$\mathsf{isSet}(A) :\equiv \prod_{(x,y:A)} \prod_{(p,q:x=y)} (p = q)$$
 
 A type $A$ is a **set** if for all $x, y : A$ and all $p, q : x = y$, we have $p = q$.
 
 **Definition 3.1.4 (1-type).** 类型 $A$ 是 **1-type** 如果对所有 $x, y : A$，$p, q : x = y$，$r, s : p = q$，有 $r = s$。
 
-$$\text{is-1-Type}(A) \defeq \prod_{(x,y:A)} \prod_{(p,q:x=y)} \prod_{(r,s:p=q)} (r = s)$$
+$$\text{is-1-Type}(A) :\equiv \prod_{(x,y:A)} \prod_{(p,q:x=y)} \prod_{(r,s:p=q)} (r = s)$$
 
 ### 关键定理 / Key Theorems
 
@@ -58,12 +58,12 @@ The type universe $\mathcal{U}$ is not a set. Proof: the swap equivalence $f : \
 
 ### 集合的封闭性 / Closure Properties
 
-- $\mathbf{1}$（单元类型）是集合
-- $\mathbf{0}$（空类型）是集合
-- $\mathbb{N}$（自然数）是集合
-- 若 $A$, $B$ 是集合，则 $A \times B$ 是集合
-- 若 $A$ 是集合且每个 $B(x)$ 是集合，则 $\sum_{(x:A)} B(x)$ 是集合
-- 若每个 $B(x)$ 是集合，则 $\prod_{(x:A)} B(x)$ 是集合（$A$ 任意）
+- $\mathbf{1}$（单元类型）是集合 / $\mathbf{1}$ (unit type) is a set
+- $\mathbf{0}$（空类型）是集合 / $\mathbf{0}$ (empty type) is a set
+- $\mathbb{N}$（自然数）是集合 / $\mathbb{N}$ (natural numbers) is a set
+- 若 $A$, $B$ 是集合，则 $A \times B$ 是集合 / if $A$, $B$ are sets, so is $A \times B$
+- 若 $A$ 是集合且每个 $B(x)$ 是集合，则 $\sum_{(x:A)} B(x)$ 是集合 / if $A$ is a set and each $B(x)$ is a set, so is $\sum_{(x:A)} B(x)$
+- 若每个 $B(x)$ 是集合，则 $\prod_{(x:A)} B(x)$ 是集合（$A$ 任意） / if each $B(x)$ is a set, so is $\prod_{(x:A)} B(x)$ (for any $A$)
 
 ### 为什么重要 / Why It Matters
 
@@ -89,7 +89,7 @@ $$\neg\left(\prod_{(A:\mathcal{U})} (\neg\neg A \to A)\right)$$
 
 It is not the case that for all $A : \mathcal{U}$ we have $\neg(\neg A) \to A$.
 
-**证明思路 / Proof idea:** 假设有 $f : \prod_{(A:\mathcal{U})} (\neg\neg A \to A)$。取 $e : \mathbf{2} \simeq \mathbf{2}$ 为交换等价，$p \defeq \mathsf{ua}(e) : \mathbf{2} = \mathbf{2}$。由 $f$ 的自然性（univalence 保证的连续性），得 $e(f(\mathbf{2})(u)) = f(\mathbf{2})(u)$，即 $f(\mathbf{2})(u)$ 是 $e$ 的不动点。但 $e$ 无不动点，矛盾。
+**证明思路 / Proof idea:** 假设有 $f : \prod_{(A:\mathcal{U})} (\neg\neg A \to A)$。取 $e : \mathbf{2} \simeq \mathbf{2}$ 为交换等价，$p :\equiv \mathsf{ua}(e) : \mathbf{2} = \mathbf{2}$。由 $f$ 的自然性（univalence 保证的连续性），得 $e(f(\mathbf{2})(u)) = f(\mathbf{2})(u)$，即 $f(\mathbf{2})(u)$ 是 $e$ 的不动点。但 $e$ 无不动点，矛盾。
 
 Assuming $f : \prod_{(A:\mathcal{U})} (\neg\neg A \to A)$, the naturality of $f$ (guaranteed by univalence) with respect to the swap equivalence $e : \mathbf{2} \simeq \mathbf{2}$ yields $e(f(\mathbf{2})(u)) = f(\mathbf{2})(u)$, a fixed point. But $e$ has no fixed points, contradiction.
 
@@ -100,8 +100,11 @@ It is not the case that for all $A : \mathcal{U}$ we have $A + (\neg A)$.
 ### 关键后果 / Key Consequences
 
 - 不存在 Hilbert 风格的选择算子，能对每个非空类型选出元素（这样的算子无法关于等价自然）
+  No Hilbert-style choice operator picking an element from every inhabited type — such an operator cannot be natural with respect to equivalences.
 - 但 $\neg\neg\neg A \to \neg A$ 对所有 $A$ 仍成立
+  However, $\neg\neg\neg A \to \neg A$ still holds for all $A$.
 - 类型论版选择公理 $\prod_{(x:X)} \sum_{(a:A(x))} P(x,a) \to \sum_{(g:\prod_{(x:X)} A(x))} \prod_{(x:X)} P(x,g(x))$ 仍可证
+  The type-theoretic axiom of choice (untruncated version) remains provable.
 
 ### 为什么重要 / Why It Matters
 
@@ -119,9 +122,9 @@ It is not the case that for all $A : \mathcal{U}$ we have $A + (\neg A)$.
 
 **Definition 3.3.1 (Mere proposition / 纯命题).** 类型 $P$ 是**纯命题 (mere proposition)** 如果对所有 $x, y : P$，有 $x = y$。
 
-$$\mathsf{isProp}(P) \defeq \prod_{(x,y:P)} (x = y)$$
+$$\mathsf{isProp}(P) :\equiv \prod_{(x,y:P)} (x = y)$$
 
-等价术语：(-1)-type, h-proposition, subterminal object, subsingleton.
+等价术语 / Equivalent terminology: (-1)-type, h-proposition, subterminal object, subsingleton.
 
 ### 关键定理 / Key Theorems
 
@@ -143,11 +146,13 @@ For any type $A$, the types $\mathsf{isProp}(A)$ and $\mathsf{isSet}(A)$ are mer
 
 ### 关键例子 / Key Examples
 
-- $\mathbf{0}$ 是纯命题（空虚真）
-- $\mathbf{1}$ 是纯命题（任意两元素相等）
+- $\mathbf{0}$ 是纯命题（空虚真） / $\mathbf{0}$ is a mere proposition (vacuously)
+- $\mathbf{1}$ 是纯命题（任意两元素相等） / $\mathbf{1}$ is a mere proposition (any two elements are equal)
 - $\mathbf{2}$ **不是**纯命题（$0_\mathbf{2} \neq 1_\mathbf{2}$，所以给出一个居民提供了额外的一比特信息）
+  $\mathbf{2}$ is **not** a mere proposition ($0_\mathbf{2} \neq 1_\mathbf{2}$; giving an inhabitant provides one extra bit of information)
 - $A$ 是集合 $\iff$ 对所有 $x, y : A$，$x =_A y$ 是纯命题
-- $\mathsf{isequiv}(f)$ 是纯命题（Ch2 中的条件）
+  $A$ is a set $\iff$ for all $x, y : A$, $x =_A y$ is a mere proposition
+- $\mathsf{isequiv}(f)$ 是纯命题（Ch2 中的条件）/ $\mathsf{isequiv}(f)$ is a mere proposition (the condition from Ch2)
 
 ### 为什么重要 / Why It Matters
 
@@ -163,29 +168,35 @@ For any type $A$, the types $\mathsf{isProp}(A)$ and $\mathsf{isSet}(A)$ are mer
 
 ### 关键定义 / Key Definitions
 
-**排中律 (Law of Excluded Middle).** 正确的 HoTT 表述为：
+**排中律 / Law of Excluded Middle.** 正确的 HoTT 表述 / The correct HoTT formulation:
 
-$$\mathsf{LEM} \defeq \prod_{(A:\mathcal{U})} \left(\mathsf{isProp}(A) \to (A + \neg A)\right)$$
+$$\mathsf{LEM} :\equiv \prod_{(A:\mathcal{U})} \left(\mathsf{isProp}(A) \to (A + \neg A)\right)$$
 
-**双重否定律 (Law of Double Negation).**
+**双重否定律 / Law of Double Negation.**
 
 $$\prod_{(A:\mathcal{U})} \left(\mathsf{isProp}(A) \to (\neg\neg A \to A)\right)$$
 
 LEM 和双重否定律等价（Exercise 3.18）。
+LEM and double negation are equivalent (Exercise 3.18).
 
-**朴素版 LEM（不一致）：**
+**朴素版 LEM（不一致） / Naive LEM (inconsistent):**
 
-$$\mathsf{LEM}_\infty \defeq \prod_{(A:\mathcal{U})} (A + \neg A)$$
+$$\mathsf{LEM}_\infty :\equiv \prod_{(A:\mathcal{U})} (A + \neg A)$$
 
-此版本与 univalence 不一致！因为 $\mathbf{2}$ 不是纯命题。
+此版本与 univalence 不一致——因为 $\mathbf{2}$ 不是纯命题。
+This version is inconsistent with univalence, because $\mathbf{2}$ is not a mere proposition.
 
 **Definition 3.4.3 (可判定性 / Decidability).**
 
-- 类型 $A$ **可判定 (decidable)** 若 $A + \neg A$
-- 类型族 $B : A \to \mathcal{U}$ **可判定** 若 $\prod_{(a:A)} (B(a) + \neg B(a))$
-- $A$ 有**可判定相等 (decidable equality)** 若 $\prod_{(a,b:A)} ((a = b) + \neg(a = b))$
+- 类型 $A$ **可判定 (decidable)** 若 $A + \neg A$。
+  A type $A$ is **decidable** if $A + \neg A$.
+- 类型族 $B : A \to \mathcal{U}$ **可判定** 若 $\prod_{(a:A)} (B(a) + \neg B(a))$。
+  A type family $B : A \to \mathcal{U}$ is **decidable** if $\prod_{(a:A)} (B(a) + \neg B(a))$.
+- $A$ 有**可判定相等 (decidable equality)** 若 $\prod_{(a,b:A)} ((a = b) + \neg(a = b))$。
+  $A$ has **decidable equality** if $\prod_{(a,b:A)} ((a = b) + \neg(a = b))$.
 
 $\mathsf{LEM}$ 恰好说所有纯命题都可判定。
+$\mathsf{LEM}$ says precisely that all mere propositions are decidable.
 
 ### 关键洞见 / Key Insights
 
@@ -218,16 +229,19 @@ $\mathsf{LEM}$ 恰好说所有纯命题都可判定。
 ### 关键定义 / Key Definitions
 
 **子集 / Subset.** 给定谓词 $P : A \to \mathcal{U}$（每个 $P(x)$ 是纯命题），子集定义为：
+Given a predicate $P : A \to \mathcal{U}$ (each $P(x)$ a mere proposition), the subset is defined as:
 
-$$\{x : A \mid P(x)\} \defeq \sum_{(x:A)} P(x)$$
+$$\{x : A \mid P(x)\} :\equiv \sum_{(x:A)} P(x)$$
 
 **成员关系 / Membership.** $a \in P$ 指纯命题 $P(a)$。
+$a \in P$ refers to the mere proposition $P(a)$.
 
 **包含关系 / Containment.** $P \subseteq Q$ 定义为 $\prod_{(x:A)} (P(x) \to Q(x))$。
+$P \subseteq Q$ is defined as $\prod_{(x:A)} (P(x) \to Q(x))$.
 
 **子宇宙 / Subuniverses.**
 
-$$\mathsf{Set}_\mathcal{U} \defeq \{A : \mathcal{U} \mid \mathsf{isSet}(A)\}, \qquad \mathsf{Prop}_\mathcal{U} \defeq \{A : \mathcal{U} \mid \mathsf{isProp}(A)\}$$
+$$\mathsf{Set}_\mathcal{U} :\equiv \{A : \mathcal{U} \mid \mathsf{isSet}(A)\}, \qquad \mathsf{Prop}_\mathcal{U} :\equiv \{A : \mathcal{U} \mid \mathsf{isProp}(A)\}$$
 
 ### 关键定理 / Key Theorems
 
@@ -239,7 +253,8 @@ If $P : A \to \mathcal{U}$ is a family of mere propositions and $u, v : \sum_{(x
 
 The map $\mathsf{Prop}_{\mathcal{U}_i} \to \mathsf{Prop}_{\mathcal{U}_{i+1}}$ is an equivalence.
 
-**幂集 / Power set.** 在命题调整下，$\mathcal{P}(A) \defeq (A \to \Omega)$，其中 $\Omega$ 分类所有纯命题。
+**幂集 / Power set.** 在命题调整下，$\mathcal{P}(A) :\equiv (A \to \Omega)$，其中 $\Omega$ 分类所有纯命题。
+Under propositional resizing, $\mathcal{P}(A) :\equiv (A \to \Omega)$, where $\Omega$ classifies all mere propositions.
 
 ### 为什么重要 / Why It Matters
 
@@ -275,9 +290,12 @@ $+$ and $\Sigma$ do not preserve mere propositions! We need **propositional trun
 ### 关键定义 / Key Definitions
 
 **命题截断 / Propositional truncation.** 对任意类型 $A$，有类型 $\|A\|$，带两个构造子：
+For any type $A$, there is a type $\|A\|$ with two constructors:
 
 1. 对任意 $a : A$，有 $|a| : \|A\|$
+   For any $a : A$, we have $|a| : \|A\|$.
 2. 对任意 $x, y : \|A\|$，有 $x = y$（即 $\|A\|$ 是纯命题）
+   For any $x, y : \|A\|$, we have $x = y$ (i.e., $\|A\|$ is a mere proposition).
 
 **递归原理 / Recursion principle.** 若 $B$ 是纯命题且有 $f : A \to B$，则存在 $g : \|A\| \to B$ 使得 $g(|a|) \equiv f(a)$。
 
@@ -290,26 +308,27 @@ If $B$ is a mere proposition and $f : A \to B$, then there is $g : \|A\| \to B$ 
 ### 截断逻辑的定义 / Traditional Logical Notation (Definition 3.7.1)
 
 $$\begin{aligned}
-\top &\defeq \mathbf{1} \\
-\bot &\defeq \mathbf{0} \\
-P \land Q &\defeq P \times Q \\
-P \Rightarrow Q &\defeq P \to Q \\
-P \Leftrightarrow Q &\defeq P = Q \\
-\neg P &\defeq P \to \mathbf{0} \\
-P \lor Q &\defeq \|P + Q\| \\
-\forall_{(x:A)} P(x) &\defeq \prod_{(x:A)} P(x) \\
-\exists_{(x:A)} P(x) &\defeq \left\|\sum_{(x:A)} P(x)\right\|
+\top &:\equiv \mathbf{1} \\
+\bot &:\equiv \mathbf{0} \\
+P \land Q &:\equiv P \times Q \\
+P \Rightarrow Q &:\equiv P \to Q \\
+P \Leftrightarrow Q &:\equiv P = Q \\
+\neg P &:\equiv P \to \mathbf{0} \\
+P \lor Q &:\equiv \|P + Q\| \\
+\forall_{(x:A)} P(x) &:\equiv \prod_{(x:A)} P(x) \\
+\exists_{(x:A)} P(x) &:\equiv \left\|\sum_{(x:A)} P(x)\right\|
 \end{aligned}$$
 
 ### 子集运算 / Subset Operations
 
 $$\begin{aligned}
-\{x : A \mid P(x)\} \cap \{x : A \mid Q(x)\} &\defeq \{x : A \mid P(x) \land Q(x)\} \\
-\{x : A \mid P(x)\} \cup \{x : A \mid Q(x)\} &\defeq \{x : A \mid P(x) \lor Q(x)\} \\
-A \setminus \{x : A \mid P(x)\} &\defeq \{x : A \mid \neg P(x)\}
+\{x : A \mid P(x)\} \cap \{x : A \mid Q(x)\} &:\equiv \{x : A \mid P(x) \land Q(x)\} \\
+\{x : A \mid P(x)\} \cup \{x : A \mid Q(x)\} &:\equiv \{x : A \mid P(x) \lor Q(x)\} \\
+A \setminus \{x : A \mid P(x)\} &:\equiv \{x : A \mid \neg P(x)\}
 \end{aligned}$$
 
 注意：没有 LEM 时，$B \cup (A \setminus B)$ 未必等于 $A$。
+Note: without LEM, $B \cup (A \setminus B)$ is not necessarily equal to $A$.
 
 ### 为什么重要 / Why It Matters
 
@@ -325,11 +344,12 @@ A \setminus \{x : A \mid P(x)\} &\defeq \{x : A \mid \neg P(x)\}
 
 ### 关键定义 / Key Definitions
 
-**选择公理 (AC).** 设 $X$ 为集合，$A : X \to \mathcal{U}$ 每个 $A(x)$ 为集合，$P : \prod_{(x:X)} A(x) \to \mathcal{U}$ 每个 $P(x, a)$ 为纯命题。则：
+**选择公理 / Axiom of Choice (AC).** 设 $X$ 为集合，$A : X \to \mathcal{U}$ 每个 $A(x)$ 为集合，$P : \prod_{(x:X)} A(x) \to \mathcal{U}$ 每个 $P(x, a)$ 为纯命题。则：
+Let $X$ be a set, $A : X \to \mathcal{U}$ a family of sets, and $P : \prod_{(x:X)} A(x) \to \mathcal{U}$ a family of mere propositions. Then:
 
 $$\mathsf{AC} : \left(\prod_{(x:X)} \left\|\sum_{(a:A(x))} P(x,a)\right\|\right) \to \left\|\sum_{(g:\prod_{(x:X)} A(x))} \prod_{(x:X)} P(x,g(x))\right\|$$
 
-用传统记号：$\left(\forall_{x:X} \exists_{a:A(x)} P(x,a)\right) \Rightarrow \left(\exists_{g:\prod_{x:X} A(x)} \forall_{x:X} P(x,g(x))\right)$
+用传统记号 / In traditional notation: $\left(\forall_{x:X} \exists_{a:A(x)} P(x,a)\right) \Rightarrow \left(\exists_{g:\prod_{x:X} A(x)} \forall_{x:X} P(x,g(x))\right)$
 
 ### 等价形式 / Equivalent Form
 
@@ -338,6 +358,7 @@ $$\mathsf{AC} : \left(\prod_{(x:X)} \left\|\sum_{(a:A(x))} P(x,a)\right\|\right)
 $$\left(\prod_{(x:X)} \|Y(x)\|\right) \to \left\|\prod_{(x:X)} Y(x)\right\|$$
 
 即"非空集族的笛卡尔积非空"。
+That is, "the cartesian product of a family of nonempty sets is nonempty."
 
 AC is equivalent to: for any set $X$ and set-valued family $Y : X \to \mathcal{U}$, the product of a family of merely inhabited sets is merely inhabited.
 
@@ -347,7 +368,8 @@ AC is equivalent to: for any set $X$ and set-valued family $Y : X \to \mathcal{U
 
 There exists a type $X$ and a family $Y : X \to \mathcal{U}$ of sets such that the above is false.
 
-**证明构造 / Proof construction:** 取 $X \defeq \sum_{(A:\mathcal{U})} \|\mathbf{2} = A\|$，$x_0 \defeq (\mathbf{2}, |\mathsf{refl}|)$。则 $(x_0 = x_0) \simeq (\mathbf{2} \simeq \mathbf{2})$，故 $X$ 不是集合。定义 $Y(x) \defeq (x_0 = x)$，可证每个 $\|Y(x)\|$ 有居民，但 $\|\prod_x Y(x)\|$ 意味着 $X$ 可缩，矛盾。
+**证明构造 / Proof construction:** 取 $X :\equiv \sum_{(A:\mathcal{U})} \|\mathbf{2} = A\|$，$x_0 :\equiv (\mathbf{2}, |\mathsf{refl}|)$。则 $(x_0 = x_0) \simeq (\mathbf{2} \simeq \mathbf{2})$，故 $X$ 不是集合。定义 $Y(x) :\equiv (x_0 = x)$，可证每个 $\|Y(x)\|$ 有居民，但 $\|\prod_x Y(x)\|$ 意味着 $X$ 可缩，矛盾。
+Take $X :\equiv \sum_{(A:\mathcal{U})} \|\mathbf{2} = A\|$ and $x_0 :\equiv (\mathbf{2}, |\mathsf{refl}|)$. Then $(x_0 = x_0) \simeq (\mathbf{2} \simeq \mathbf{2})$, so $X$ is not a set. Define $Y(x) :\equiv (x_0 = x)$; each $\|Y(x)\|$ is inhabited, but $\|\prod_x Y(x)\|$ would imply $X$ is contractible — contradiction.
 
 > **深层洞见：** 注意截断出现两次。域中的截断表示"对每个 $x$ 存在某个 $a$，但不指定是哪个"；值域中的截断表示"存在选择函数 $g$，但不指定是哪个"。关键约束：$X$ 必须是集合！$\prod$ 不与 $\|\cdot\|$ 交换：$\|\prod_{x:A} P(x)\|$ 一般不等价于 $\prod_{x:A} \|P(x)\|$。
 >
@@ -372,20 +394,23 @@ There exists a type $X$ and a family $Y : X \to \mathcal{U}$ of sets such that t
 If $P$ is a mere proposition, then $P \simeq \|P\|$.
 
 **Corollary 3.9.2 (唯一选择原理 / Principle of Unique Choice).** 设类型族 $P : A \to \mathcal{U}$ 满足：
-1. 每个 $P(x)$ 是纯命题
-2. 每个 $\|P(x)\|$ 有居民
+Let $P : A \to \mathcal{U}$ be a type family such that:
+1. 每个 $P(x)$ 是纯命题 / each $P(x)$ is a mere proposition
+2. 每个 $\|P(x)\|$ 有居民 / each $\|P(x)\|$ is inhabited
 
 则 $\prod_{(x:A)} P(x)$。
+Then $\prod_{(x:A)} P(x)$.
 
 If each $P(x)$ is a mere proposition and each $\|P(x)\|$ is inhabited, then $\prod_{(x:A)} P(x)$.
 
 ### 实用技术 / Practical Technique
 
-若已知 $\|A\|$，想从中构造 $B$ 的元素：
-1. 直接只能证 $\|B\|$（因为从截断只能到纯命题）
-2. **唯一选择的绕行：** 定义谓词 $Q : B \to \mathcal{U}$ 使 $\sum_{(x:B)} Q(x)$ 是纯命题。从 $A$ 的元素构造 $(b, q)$，由截断得 $\left\|\sum_{(x:B)} Q(x)\right\|$，再由 Lemma 3.9.1 得 $\sum_{(x:B)} Q(x)$，投影得 $b : B$。
+若已知 $\|A\|$，想从中构造 $B$ 的元素 / If we know $\|A\|$ and want to construct an element of $B$:
 
-If we know $\|A\|$ and want to construct $b : B$: define $Q : B \to \mathcal{U}$ so that $\sum_{(x:B)} Q(x)$ is a mere proposition. Construct $(b,q)$ from elements of $A$, get $\left\|\sum_{(x:B)} Q(x)\right\|$ by truncation, apply Lemma 3.9.1, then project.
+1. 直接只能证 $\|B\|$（因为从截断只能到纯命题）
+   Directly we can only derive $\|B\|$ (since from truncations we can only map into mere propositions).
+2. **唯一选择的绕行 / Unique choice workaround:** 定义谓词 $Q : B \to \mathcal{U}$ 使 $\sum_{(x:B)} Q(x)$ 是纯命题。从 $A$ 的元素构造 $(b, q)$，由截断得 $\left\|\sum_{(x:B)} Q(x)\right\|$，再由 Lemma 3.9.1 得 $\sum_{(x:B)} Q(x)$，投影得 $b : B$。
+   Define a predicate $Q : B \to \mathcal{U}$ so that $\sum_{(x:B)} Q(x)$ is a mere proposition. Construct $(b,q)$ from elements of $A$, obtain $\left\|\sum_{(x:B)} Q(x)\right\|$ by truncation, then apply Lemma 3.9.1 and project to get $b : B$.
 
 ### 为什么重要 / Why It Matters
 
@@ -413,11 +438,17 @@ This book defaults to **untruncated logic** (propositions-as-types), using the a
 ### 为何默认非截断 / Reasons for Untruncated Default
 
 1. 鼓励探索非截断逻辑
+   Encourage exploring the untruncated logic.
 2. 避免集合论基础中"语言滥用"的问题（如证明"$A \simeq B$"实际构造了具体等价）
+   Avoid the "abuse of language" problem of set-theoretic foundations (e.g., a proof "$A \simeq B$" actually constructs a specific equivalence).
 3. 强调纯命题不是类型论的基本概念，只是无穷层级的第二层
+   Emphasize that mere propositions are not a primitive of type theory, just the second layer of the infinite hierarchy.
 4. HoTT 中许多经典意义上的命题不再是纯命题（首先是相等性）
+   In HoTT, many classical "propositions" are no longer mere propositions (equality being the first example).
 5. 许多类型自动是纯命题，无需截断即可使用
+   Many types are automatically mere propositions and can be used without truncation.
 6. 本书大部分数学不需要截断
+   Most mathematics in this book does not require truncation.
 
 ---
 
@@ -429,15 +460,15 @@ This book defaults to **untruncated logic** (propositions-as-types), using the a
 
 **Definition 3.11.1 (Contractible type / 可缩类型).** 类型 $A$ 是**可缩的 (contractible)** 若存在 $a : A$（**收缩中心 / center of contraction**）使得对所有 $x : A$ 有 $a = x$。
 
-$$\mathsf{isContr}(A) \defeq \sum_{(a:A)} \prod_{(x:A)} (a = x)$$
+$$\mathsf{isContr}(A) :\equiv \sum_{(a:A)} \prod_{(x:A)} (a = x)$$
 
-等价称呼：(-2)-type, singleton type。
+等价称呼 / Equivalent names: (-2)-type, singleton type.
 
 ### 等价刻画 / Equivalent Characterizations
 
-**Lemma 3.11.3.** 对类型 $A$，以下逻辑等价：
-1. $A$ 可缩
-2. $A$ 是纯命题且有居民
+**Lemma 3.11.3.** 对类型 $A$，以下逻辑等价 / For a type $A$, the following are logically equivalent:
+1. $A$ 可缩 / $A$ is contractible
+2. $A$ 是纯命题且有居民 / $A$ is a mere proposition and is inhabited
 3. $A \simeq \mathbf{1}$
 
 For a type $A$, the following are logically equivalent:
@@ -460,7 +491,6 @@ If $A$ is contractible, then $\mathsf{isContr}(A)$ is contractible.
 If each $P(a)$ is contractible, then $\prod_{(x:A)} P(x)$ is contractible.
 
 （此引理实际上等价于函数外延性！）
-
 (This lemma is actually equivalent to function extensionality!)
 
 **Lemma 3.11.8 (缩回保持可缩性).** 若 $B$ 是 $A$ 的缩回（retract），且 $A$ 可缩，则 $B$ 可缩。
@@ -471,9 +501,11 @@ If $B$ is a retract of $A$ and $A$ is contractible, then $B$ is contractible.
 
 For any $A$ and $a : A$, the type $\sum_{(x:A)} (a = x)$ is contractible.
 
-**Lemma 3.11.10 (可缩数据可忽略).**
+**Lemma 3.11.10 (可缩数据可忽略 / Contractible data can be ignored).**
 1. 若每个 $P(x)$ 可缩，则 $\sum_{(x:A)} P(x) \simeq A$
+   If each $P(x)$ is contractible, then $\sum_{(x:A)} P(x) \simeq A$.
 2. 若 $A$ 可缩（中心 $a$），则 $\sum_{(x:A)} P(x) \simeq P(a)$
+   If $A$ is contractible with center $a$, then $\sum_{(x:A)} P(x) \simeq P(a)$.
 
 **Lemma 3.11.11 (纯命题 $\iff$ 恒等类型可缩).** $A$ 是纯命题当且仅当对所有 $x, y : A$，$x =_A y$ 可缩。
 
@@ -483,7 +515,7 @@ $A$ is a mere proposition iff for all $x, y : A$, $x =_A y$ is contractible.
 
 $$\underbrace{\mathsf{isContr}(A)}_{(-2)\text{-type}} \;\Rightarrow\; \underbrace{\mathsf{isProp}(A)}_{(-1)\text{-type}} \;\Rightarrow\; \underbrace{\mathsf{isSet}(A)}_{0\text{-type}} \;\Rightarrow\; \underbrace{\text{is-1-Type}(A)}_{1\text{-type}} \;\Rightarrow\; \cdots$$
 
-递归定义的基础：$A$ 是 $(n+1)$-type $\iff$ 对所有 $x, y : A$，$x =_A y$ 是 $n$-type。可缩类型（$(-2)$-type）是递归的 base case。
+递归定义的基础：$A$ 是 $(n+1)$-type $\iff$ 对所有 $x, y : A$，$x =_A y$ 是 $n$-type。可缩类型（$(-2)$-type）是递归的 base case。第 7 章将系统发展这个层级。
 
 The recursive definition: $A$ is an $(n+1)$-type iff for all $x, y : A$, $x =_A y$ is an $n$-type. Contractible types ($(-2)$-types) are the base case. Chapter 7 will develop this hierarchy systematically.
 
@@ -499,20 +531,20 @@ The recursive definition: $A$ is an $(n+1)$-type iff for all $x, y : A$, $x =_A 
 
 | 练习 / Exercise | 内容 / Content |
 |---|---|
-| 3.1 | 若 $A \simeq B$ 且 $A$ 是集合，则 $B$ 是集合 |
-| 3.4 | $A$ 是纯命题 $\iff$ $A \to A$ 可缩 |
+| 3.1 | 若 $A \simeq B$ 且 $A$ 是集合，则 $B$ 是集合。/ If $A \simeq B$ and $A$ is a set, so is $B$. |
+| 3.4 | $A$ 是纯命题 $\iff$ $A \to A$ 可缩。/ $A$ is a mere proposition iff $A \to A$ is contractible. |
 | 3.5 | $\mathsf{isProp}(A) \simeq (A \to \mathsf{isContr}(A))$ |
-| 3.6 | 若 $A$ 是纯命题，则 $A + (\neg A)$ 也是纯命题 |
-| 3.7 | 若 $A, B$ 是纯命题且 $\neg(A \times B)$，则 $A + B$ 是纯命题 |
+| 3.6 | 若 $A$ 是纯命题，则 $A + (\neg A)$ 也是纯命题。/ If $A$ is a mere proposition, so is $A + (\neg A)$. |
+| 3.7 | 若 $A, B$ 是纯命题且 $\neg(A \times B)$，则 $A + B$ 是纯命题。/ If $A, B$ are mere propositions and $\neg(A \times B)$, then $A + B$ is a mere proposition. |
 | 3.11 | LEM $\Rightarrow$ $\mathsf{Prop} \simeq \mathbf{2}$ |
-| 3.14 | LEM $\Rightarrow$ $\neg\neg A$ 有与 $\|A\|$ 相同的递归原理 $\Rightarrow$ $\neg\neg A \simeq \|A\|$ |
-| 3.17 | LEM 与双重否定律等价 |
-| 3.19 | 若 $P : \mathbb{N} \to \mathcal{U}$ 是可判定纯命题族，则 $\left\|\sum_n P(n)\right\| \to \sum_n P(n)$ |
+| 3.14 | LEM $\Rightarrow$ $\neg\neg A$ 有与 $\|A\|$ 相同的递归原理 $\Rightarrow$ $\neg\neg A \simeq \|A\|$。/ Under LEM, $\neg\neg A$ has the same recursion principle as $\|A\|$, so $\neg\neg A \simeq \|A\|$. |
+| 3.17 | LEM 与双重否定律等价。/ LEM is equivalent to double negation. |
+| 3.19 | 若 $P : \mathbb{N} \to \mathcal{U}$ 是可判定纯命题族，则 $\left\|\sum_n P(n)\right\| \to \sum_n P(n)$。/ If $P : \mathbb{N} \to \mathcal{U}$ is a decidable family of mere propositions, then $\left\|\sum_n P(n)\right\| \to \sum_n P(n)$. |
 
 ---
 
 ## 概念关联 / Concept Links
 
-- **前置：** [[ch01_type_theory]]（基本类型构造）、[[ch02_homotopy_type_theory]]（路径、传输、univalence）
-- **后续：** [[ch04_equivalences]]（等价的精确定义）、[[ch07_homotopy_n_types]]（n-type 层级的系统发展）
-- **相关概念：** [[Truncation_Levels/sets]]、[[Logic/propositions_as_types_problem]]、[[Truncation_Levels/mere_propositions]]、[[Logic/classical_vs_intuitionistic]]、[[Logic/subsets]]、[[Logic/propositional_truncation]]、[[Axioms/axiom_of_choice]]、[[Logic/unique_choice]]、[[Truncation_Levels/contractibility]]
+- **前置 / Prerequisites:** [[ch01_type_theory]] (basic type formers), [[ch02_homotopy_type_theory]] (paths, transport, univalence)
+- **后续 / Leads to:** [[ch04_equivalences]] (precise definitions of equivalence), [[ch07_homotopy_n_types]] (systematic development of the n-type hierarchy)
+- **相关概念 / Related concepts:** [[Truncation_Levels/sets]], [[Logic/propositions_as_types_problem]], [[Truncation_Levels/mere_propositions]], [[Logic/classical_vs_intuitionistic]], [[Logic/subsets]], [[Logic/propositional_truncation]], [[Axioms/axiom_of_choice]], [[Logic/unique_choice]], [[Truncation_Levels/contractibility]]
