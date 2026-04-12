@@ -199,6 +199,7 @@
   },
   "active": "0b2f26ebb992ee59",
   "lastOpenFiles": [
+    "teaching/hott_workshop_prep_notes.md",
     "teaching/hott_workshop_guide.md",
     "teaching/hott_workshop.lean",
     "book/ch03_sets_and_logic.md",
@@ -230,7 +231,6 @@
     "teaching/img/haskell_curry.jpeg",
     "teaching/img",
     "Set_Theory/cumulative_hierarchy.md",
-    "Category_Theory/00_MOC.md",
     "teaching",
     "book",
     "Real_Numbers",
