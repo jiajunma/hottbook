@@ -153,15 +153,15 @@ Cubical 的另一个关键特性：**Kan operations**（或叫 composition / fil
 
 ## 实际系统
 
-| 系统 | 类型 | 状态 |
-|---|---|---|
-| **Coq + HoTT library** | 传统 HoTT，公理形式 | 生产可用 |
-| **Agda + HoTT library** | 传统 HoTT，`--without-K` | 生产可用 |
-| **Lean 4 + Mathlib** | 不支持 univalence，有近似 | 数学库巨大 |
-| **Cubical Agda** | Cubical TT | 生产可用，最成熟 |
-| **cubicaltt** | 原型实现 (Mörtberg, Cohen, Coquand, Huber) | 研究原型 |
-| **redtt / cooltt** | Carnegie Mellon 实验系统 | 研究原型 |
-| **Arend** | JetBrains，基于 cubical 思想 | 积极开发 |
+| 系统                      | 类型                                     | 状态       |
+| ----------------------- | -------------------------------------- | -------- |
+| **Coq + HoTT library**  | 传统 HoTT，公理形式                           | 生产可用     |
+| **Agda + HoTT library** | 传统 HoTT，`--without-K`                  | 生产可用     |
+| **Lean 4 + Mathlib**    | 不支持 univalence，有近似                     | 数学库巨大    |
+| **Cubical Agda**        | Cubical TT                             | 生产可用，最成熟 |
+| **cubicaltt**           | 原型实现 (Mörtberg, Cohen, Coquand, Huber) | 研究原型     |
+| **redtt / cooltt**      | Carnegie Mellon 实验系统                   | 研究原型     |
+| **Arend**               | JetBrains，基于 cubical 思想                | 积极开发     |
 
 **实践建议**：对大部分 HoTT 形式化目的，**Cubical Agda** 是目前最成熟的选择。
 
